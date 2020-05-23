@@ -6,6 +6,8 @@ import IconButton from '@material-ui/core/IconButton';
 
 import Icon1 from './images/icons/ghettoyuta.png'
 
+const totalWidth = 0.52; // a percentage
+
 const iconBorderColour = "#264653";
 const iconBorderWidth = 2; // in px
 const iconDiameter = 100; // in px
@@ -63,6 +65,10 @@ class PlayerLobbyData extends React.Component {
         // return a random name
         return names[Math.floor(Math.random() * names.length)]
     }
+      
+    updateWindowDimensions() {
+        this.setState({ wWidth: window.innerWidth, wHeight: window.innerHeight });
+    }
 
     componentDidMount() {
         this.updateWindowDimensions();
@@ -71,10 +77,6 @@ class PlayerLobbyData extends React.Component {
       
     componentWillUnmount() {
         window.removeEventListener('resize', this.updateWindowDimensions);
-    }
-      
-    updateWindowDimensions() {
-        this.setState({ wWidth: window.innerWidth, wHeight: window.innerHeight });
     }
 
     render() {
@@ -112,17 +114,18 @@ class PlayerLobbyData extends React.Component {
             </IconButton>
         }
 
+        const nameLeftPadding = 0.03; // a percentage
         let totalMinWidth = 323; // in px
-        let nameWidth = ((this.state.wWidth * 0.52) - 270) * 0.97;
+        let nameWidth = ((this.state.wWidth * totalWidth) - 270) * (1 - nameLeftPadding);
         if (this.state.canEdit) {
-            nameWidth = ((this.state.wWidth * 0.52) - 330) * 0.97;
+            nameWidth = ((this.state.wWidth * totalWidth) - 330) * (1 - nameLeftPadding);
         }
 
         return (
             <div
                 style={{
                     minWidth:  totalMinWidth + "px",
-                    width: "52%",
+                    width: (totalWidth * 100) + "%",
                     margin: "0 auto",
                 }}
             >
@@ -153,7 +156,7 @@ class PlayerLobbyData extends React.Component {
                         style={{
                             float: "left",
                             maxWidth: nameWidth + "px",
-                            marginLeft: "3%"
+                            marginLeft: (nameLeftPadding * 100) + "%"
                         }}
                     >
                         <Typography

@@ -2,6 +2,7 @@ import React from 'react';
 
 import NavBar from './NavBar'
 import PlayerLobbyData from './PlayerLobbyData'
+import LinkBar from './LinkBar'
 
 const backgroundColour = "#2A9D8F";
 
@@ -24,9 +25,9 @@ class Lobby extends React.Component {
                 }}
             >
                 <NavBar />
-                {/* <div>
-                    The room code is: {this.state.roomCode}
-                </div> */}
+                <LinkBar
+                    link={"badmahjong.xyz/" + this.state.roomCode}
+                />
                 <PlayerLobbyData
                     id="player1"
                     canEdit={true}
