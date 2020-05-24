@@ -1,35 +1,19 @@
 import React from 'react';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-import copy from 'copy-to-clipboard'; // needed for safari
-
-const copyButtonColour = "#C4C4C4";
-
-class LinkBar extends React.Component {
+class LobbyButtons extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            link: this.props.link,
-
             wWidth: 0,
             wHeight: 0,
         }
 
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
-        this.onCopy = this.onCopy.bind(this);
     }
 
-    onCopy() {
-        if (navigator.clipboard) {
-            navigator.clipboard.writeText(this.state.link);
-        } else {
-            copy(this.state.link);
-        }
-    };
-      
     updateWindowDimensions() {
         this.setState({ wWidth: window.innerWidth, wHeight: window.innerHeight });
     }
@@ -47,21 +31,27 @@ class LinkBar extends React.Component {
         let totalWidth = Math.min(800, this.state.wWidth * 0.52); // in px
         let minTotalWidth = 600; // in px
 
-        const height = 40; // in px
-        const copyButtonWidth = 80; // in px
-        const linkBoxWidth = Math.max(totalWidth, minTotalWidth) - copyButtonWidth;
+        let fontSize = 40; // in px
+        let buttonWidth = 250; // in px
+        let buttonHeight = 100; // in px
+        let buttonMargin = (this.state.wWidth - Math.max(totalWidth, minTotalWidth)) / 2 + 25; // in px
+
+        let yellow = "#E9C46A";
+        let red = "#E76F51";
 
         return (
             <div
                 style={{
-                    width: totalWidth + "px",
+                    width: "100%",
                     minWidth: minTotalWidth + "px",
                     margin: "0 auto",
+                    position: "fixed",
+                    bottom: "0px",
                 }}
             >
                 <div
                     style={{
-                        margin: "15px 0 15px 0",
+                        margin: "15px 0 25px 0",
                         display: "flex",
                         alignItems: "center"
                     }}
@@ -69,38 +59,15 @@ class LinkBar extends React.Component {
                     <div
                         style={{
                             float: "left",
-                        }}
-                    >
-                        <Paper
-                            variant="outlined"
-                            style={{
-                                width: linkBoxWidth + "px",
-                                height: height + "px",
-                            }}
-                        >
-                            <Typography
-                                style={{
-                                    fontSize: "25px",
-                                }}
-                                align="center"
-                            >
-                                {this.state.link}
-                            </Typography>
-                        </Paper>
-                    </div>
-                    <div
-                        style={{
-                            marginLeft: "auto",
+                            marginLeft: buttonMargin + "px",
                         }}
                     >
                         <Button
                             variant="contained"
-                            color="primary"
-                            disableElevation={true}
                             style={{
-                                width: copyButtonWidth + "px",
-                                height: (height + 2) + "px",
-                                background: copyButtonColour,
+                                width: buttonWidth + "px",
+                                height: buttonHeight + "px",
+                                background: yellow,
                                 display: "flex",
                                 flexDirection: "column",
                                 justifyContent: "center",
@@ -109,12 +76,41 @@ class LinkBar extends React.Component {
                         >
                             <Typography
                                 style={{
-                                    fontSize: "20px",
+                                    fontSize: fontSize + "px",
                                     color: "black"
                                 }}
                                 align="center"
                             >
-                                Copy
+                                Ready
+                            </Typography>
+                        </Button>
+                    </div>
+                    <div
+                        style={{
+                            marginLeft: "auto",
+                            marginRight: buttonMargin + "px",
+                        }}
+                    >
+                        <Button
+                            variant="contained"
+                            style={{
+                                width: buttonWidth + "px",
+                                height: buttonHeight + "px",
+                                background: red,
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                            }}
+                            onClick={this.onCopy}
+                        >
+                            <Typography
+                                style={{
+                                    fontSize: fontSize + "px",
+                                    color: "black"
+                                }}
+                                align="center"
+                            >
+                                Quit
                             </Typography>
                         </Button>
                     </div>
@@ -124,4 +120,4 @@ class LinkBar extends React.Component {
     }
 }
 
-export default LinkBar
+export default LobbyButtons

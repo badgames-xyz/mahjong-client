@@ -3,6 +3,7 @@ import React from 'react';
 import NavBar from './NavBar'
 import PlayerLobbyData from './PlayerLobbyData'
 import LinkBar from './LinkBar'
+import LobbyButtons from './LobbyButtons'
 
 const backgroundColour = "#2A9D8F";
 
@@ -48,6 +49,7 @@ class Lobby extends React.Component {
                     canEdit={false}
                     ready={false}
                 />
+                <LobbyButtons />
             </div>
         )
     }

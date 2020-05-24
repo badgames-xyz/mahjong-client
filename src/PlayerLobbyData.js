@@ -6,8 +6,6 @@ import IconButton from '@material-ui/core/IconButton';
 
 import Icon1 from './images/icons/ghettoyuta.png'
 
-const totalWidth = 0.52; // a percentage
-
 const iconBorderColour = "#264653";
 const iconBorderWidth = 2; // in px
 const iconDiameter = 100; // in px
@@ -18,8 +16,8 @@ const statusBarWidth = 160; // in px
 const statusBarHeight = 60; // in px
 const statusBarFontSize = 25; // in px
 
-const notReadyColour = "#E76F51";
-const readyColour = "#E9C46A";
+const notReadyColour = "#FFADAD"; // #E76F51
+const readyColour = "#FDFFB6"; // #FDFFB6 E9C46A
 
 const names = [
     "Half Pounder",
@@ -114,18 +112,21 @@ class PlayerLobbyData extends React.Component {
             </IconButton>
         }
 
-        const nameLeftPadding = 0.03; // a percentage
-        let totalMinWidth = 323; // in px
-        let nameWidth = ((this.state.wWidth * totalWidth) - 270) * (1 - nameLeftPadding);
+        let totalWidth = Math.min(800, this.state.wWidth * 0.52); // in px
+        let minTotalWidth = 600; // in px
+
+        const namePadding = 15; // in px
+        let widthRemaining = iconDiameter + (2 * (iconBorderWidth + namePadding)) + statusBarWidth + 2;
+        let nameWidth = Math.max(totalWidth, minTotalWidth) - widthRemaining;
         if (this.state.canEdit) {
-            nameWidth = ((this.state.wWidth * totalWidth) - 330) * (1 - nameLeftPadding);
+            nameWidth = Math.max(totalWidth, minTotalWidth) - (widthRemaining + 59);
         }
 
         return (
             <div
                 style={{
-                    minWidth:  totalMinWidth + "px",
-                    width: (totalWidth * 100) + "%",
+                    width: totalWidth + "px",
+                    minWidth: minTotalWidth + "px",
                     margin: "0 auto",
                 }}
             >
@@ -156,7 +157,8 @@ class PlayerLobbyData extends React.Component {
                         style={{
                             float: "left",
                             maxWidth: nameWidth + "px",
-                            marginLeft: (nameLeftPadding * 100) + "%"
+                            marginLeft: namePadding + "px",
+                            marginRight: namePadding + "px"
                         }}
                     >
                         <Typography
