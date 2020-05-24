@@ -7,11 +7,19 @@ class LobbyButtons extends React.Component {
         super(props);
 
         this.state = {
+            isHost: this.props.isHost,
+            canStart: this.props.canStart,
+            ready: this.props.ready,
+
             wWidth: 0,
             wHeight: 0,
         }
 
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+    }
+
+    onReadyButton() {
+        this.props.onChangeReadyStatus();
     }
 
     updateWindowDimensions() {
@@ -27,17 +35,101 @@ class LobbyButtons extends React.Component {
         window.removeEventListener('resize', this.updateWindowDimensions);
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.ready !== this.props.ready) {
+            this.setState({
+                ready: this.props.ready
+            })
+        }
+        if (prevProps.isHost !== this.props.isHost) {
+            this.setState({
+                isHost: this.props.isHost
+            })
+        }
+        if (prevProps.canStart !== this.props.canStart) {
+            this.setState({
+                canStart: this.props.canStart
+            })
+        }
+    }
+
     render() {
         let totalWidth = Math.min(800, this.state.wWidth * 0.52); // in px
         let minTotalWidth = 600; // in px
 
-        let fontSize = 40; // in px
+        let fontSize = 35; // in px
         let buttonWidth = 250; // in px
         let buttonHeight = 100; // in px
         let buttonMargin = (this.state.wWidth - Math.max(totalWidth, minTotalWidth)) / 2 + 25; // in px
 
         let yellow = "#E9C46A";
         let red = "#E76F51";
+        let button;
+
+        if (this.state.isHost) {
+            let startButtonText = "Waiting";
+            let startButtonColor = "#C4C4C4"; // gray
+            let buttonActive = false;
+            if (this.state.canStart) {
+                startButtonText = "Start";
+                startButtonColor = yellow;
+                buttonActive = true;
+            }
+
+            button = <Button
+                variant="contained"
+                style={{
+                    width: buttonWidth + "px",
+                    height: buttonHeight + "px",
+                    background: startButtonColor,
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                }}
+                disabled={!buttonActive}
+                // onClick={() => this.onReadyButton()}
+            >
+                <Typography
+                    style={{
+                        fontSize: fontSize + "px",
+                        color: "black"
+                    }}
+                    align="center"
+                >
+                    {startButtonText}
+                </Typography>
+            </Button>
+        } else {
+            let readyButtonText = "Ready";
+            let readyButtonColor = yellow;
+            if (this.state.ready) {
+                readyButtonText = "Not Ready";
+                readyButtonColor = red;
+            }
+
+            button = <Button
+                variant="contained"
+                style={{
+                    width: buttonWidth + "px",
+                    height: buttonHeight + "px",
+                    background: readyButtonColor,
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                }}
+                onClick={() => this.onReadyButton()}
+            >
+                <Typography
+                    style={{
+                        fontSize: fontSize + "px",
+                        color: "black"
+                    }}
+                    align="center"
+                >
+                    {readyButtonText}
+                </Typography>
+            </Button>
+        }
 
         return (
             <div
@@ -62,28 +154,7 @@ class LobbyButtons extends React.Component {
                             marginLeft: buttonMargin + "px",
                         }}
                     >
-                        <Button
-                            variant="contained"
-                            style={{
-                                width: buttonWidth + "px",
-                                height: buttonHeight + "px",
-                                background: yellow,
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center",
-                            }}
-                            onClick={this.onCopy}
-                        >
-                            <Typography
-                                style={{
-                                    fontSize: fontSize + "px",
-                                    color: "black"
-                                }}
-                                align="center"
-                            >
-                                Ready
-                            </Typography>
-                        </Button>
+                        {button}
                     </div>
                     <div
                         style={{
@@ -101,7 +172,6 @@ class LobbyButtons extends React.Component {
                                 flexDirection: "column",
                                 justifyContent: "center",
                             }}
-                            onClick={this.onCopy}
                         >
                             <Typography
                                 style={{

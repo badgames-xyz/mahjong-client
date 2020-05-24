@@ -36,7 +36,7 @@ const icons = [
     Icon1,
 ]
 
-class PlayerLobbyData extends React.Component {
+class LobbyPlayer extends React.Component {
     constructor(props) {
         super(props);
 
@@ -44,8 +44,9 @@ class PlayerLobbyData extends React.Component {
             id: this.props.id,
             canEdit: this.props.canEdit,
             icon: this.randomIcon(),
-            name: this.randomName(),
+            name: this.props.name,
             ready: this.props.ready,
+            isHost: this.props.isHost,
 
             wWidth: 0,
             wHeight: 0,
@@ -75,6 +76,14 @@ class PlayerLobbyData extends React.Component {
       
     componentWillUnmount() {
         window.removeEventListener('resize', this.updateWindowDimensions);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.ready !== this.props.ready) {
+            this.setState({
+                ready: this.props.ready
+            })
+        }
     }
 
     render() {
@@ -191,4 +200,4 @@ class PlayerLobbyData extends React.Component {
     }
 }
 
-export default PlayerLobbyData
+export default LobbyPlayer

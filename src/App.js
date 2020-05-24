@@ -3,7 +3,7 @@ import { Switch, Route, Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
 import HomePage from './HomePage'
-import Lobby from './Lobby'
+import Game from './Game'
 
 const history = createBrowserHistory();
 
@@ -12,7 +12,7 @@ function App() {
         <Router history={history}>
             <Switch>
                 <Route path="/" exact component={HomePage}/>
-                <Route path='/:handle' component={Lobby} />
+                <Route path='/:handle' component={Game} />
             </Switch>
         </Router>
     );

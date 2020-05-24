@@ -1,9 +1,11 @@
 import React from 'react';
 
 import NavBar from './NavBar'
-import PlayerLobbyData from './PlayerLobbyData'
-import LinkBar from './LinkBar'
+import LobbyPlayer from './LobbyPlayer'
+import LobbyLink from './LobbyLink'
 import LobbyButtons from './LobbyButtons'
+
+const linkPrefix = "badmahjong.xyz/";
 
 const backgroundColour = "#2A9D8F";
 
@@ -12,7 +14,31 @@ class Lobby extends React.Component {
         super(props);
 
         this.state = {
-            roomCode: this.props.match.params.handle,
+            lobbyData: this.props.lobbyData,
+        }
+    }
+
+    areAllPlayersReady() {
+        let ready = true;
+        for (let i = 0; i < this.state.lobbyData.players.length; ++i) {
+            ready = ready && this.state.lobbyData.players[i].ready;
+        }
+        return ready;
+    }
+
+    onChangeReadyStatus() {
+        // will have to send message to server
+        // this.setState({ players: this.changeStatus() })
+        this.props.ws.send("Hello")
+        this.props.onChangeReadyStatus();
+        // this.render(); // need to manually call this for now until players is passed as props
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.lobbyData !== this.props.lobbyData) {
+            this.setState({
+                lobbyData: this.props.lobbyData
+            })
         }
     }
 
@@ -26,30 +52,25 @@ class Lobby extends React.Component {
                 }}
             >
                 <NavBar />
-                <LinkBar
-                    link={"badmahjong.xyz/" + this.state.roomCode}
+                <LobbyLink
+                    link={linkPrefix + this.state.lobbyData.roomCode}
                 />
-                <PlayerLobbyData
-                    id="player1"
-                    canEdit={true}
-                    ready={false}
+                {this.state.lobbyData.players.map(x => (
+                    <LobbyPlayer
+                        key={x.id}
+                        id={x.id}
+                        name={x.name}
+                        canEdit={x.isCurrentPlayer}
+                        ready={x.ready}
+                        isHost={x.isHost}
+                    />
+                ))}
+                <LobbyButtons
+                    isHost={this.state.lobbyData.currentPlayer.isHost}
+                    canStart={this.areAllPlayersReady()}
+                    ready={this.state.lobbyData.currentPlayer.ready}
+                    onChangeReadyStatus={() => this.onChangeReadyStatus()}
                 />
-                <PlayerLobbyData
-                    id="player2"
-                    canEdit={false}
-                    ready={true}
-                />
-                <PlayerLobbyData
-                    id="player3"
-                    canEdit={false}
-                    ready={true}
-                />
-                <PlayerLobbyData
-                    id="player4"
-                    canEdit={false}
-                    ready={false}
-                />
-                <LobbyButtons />
             </div>
         )
     }

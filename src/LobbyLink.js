@@ -7,7 +7,7 @@ import copy from 'copy-to-clipboard'; // needed for safari
 
 const copyButtonColour = "#C4C4C4";
 
-class LinkBar extends React.Component {
+class LobbyLink extends React.Component {
     constructor(props) {
         super(props);
 
@@ -124,4 +124,4 @@ class LinkBar extends React.Component {
     }
 }
 
-export default LinkBar
+export default LobbyLink
