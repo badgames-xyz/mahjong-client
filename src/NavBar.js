@@ -24,7 +24,7 @@ class NavBar extends React.Component {
             >
                 <Typography
                     component={Link}
-                    to="/"
+                    to="alsdjkf"
                     variant="h5"
                     style={logoStyle}
                     // TODO: On click, go back to home page

@@ -12,7 +12,7 @@ function App() {
         <Router history={history}>
             <Switch>
                 <Route path="/" exact component={HomePage}/>
-                <Route path='/:handle' component={Game} />
+                <Route path='/' component={Game} />
             </Switch>
         </Router>
     );

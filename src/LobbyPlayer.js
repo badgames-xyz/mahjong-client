@@ -4,7 +4,10 @@ import Typography from '@material-ui/core/Typography';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
 
-import Icon1 from './images/icons/ghettoyuta.png'
+import yuta from './images/icons/ghettoyuta.png'
+import poggers from './images/icons/poggers.png'
+import rila from './images/icons/rila.png'
+import yessir from './images/icons/yessir.png'
 
 const iconBorderColour = "#264653";
 const iconBorderWidth = 2; // in px
@@ -33,7 +36,10 @@ const names = [
 ]
 
 const icons = [
-    Icon1,
+    yuta,
+    poggers,
+    rila,
+    yessir,
 ]
 
 class LobbyPlayer extends React.Component {

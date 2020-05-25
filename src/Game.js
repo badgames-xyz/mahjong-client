@@ -18,11 +18,11 @@ class Game extends React.Component {
         }
 
         this.state = {
-            roomCode: this.props.match.params.handle,
+            roomCode: window.location.pathname,
             gameStarted: false,
             lobbyData: { // example data. Replace with real data from server
                 gameID: 1234,
-                roomCode: this.props.match.params.handle,
+                roomCode: window.location.pathname,
                 players: [
                     you,
                     {
