@@ -3,6 +3,9 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
+import CheckIcon from '@material-ui/icons/Check';
+import CloseIcon from '@material-ui/icons/Close';
+import TextField from '@material-ui/core/TextField';
 
 import yuta from './images/icons/ghettoyuta.png'
 import poggers from './images/icons/poggers.png'
@@ -47,12 +50,18 @@ class LobbyPlayer extends React.Component {
         super(props);
 
         this.state = {
+            // player: this.props.player,
+            // player will have fields: id, iconIndex, name, ready, isHost
+            // canedit must be passed from parent Lobby
             id: this.props.id,
             canEdit: this.props.canEdit,
             icon: this.randomIcon(),
             name: this.props.name,
             ready: this.props.ready,
             isHost: this.props.isHost,
+
+            editingName: false,
+            newName: this.props.name,
 
             wWidth: 0,
             wHeight: 0,
@@ -71,11 +80,66 @@ class LobbyPlayer extends React.Component {
         return names[Math.floor(Math.random() * names.length)]
     }
 
+    onEditName() {
+        this.setState({ editingName: true });
+    }
+
+    onAcceptName() {
+        this.setState({
+            editingName: false,
+            name: this.state.newName,
+        });
+    }
+
+    onCancelName() {
+        this.setState({ editingName: false });
+    }
+
+    onNameChange = (e) => {
+        this.setState({
+            newName: e.target.value
+        });
+    }
+
     renderName(namePadding, nameWidth) {
         let editButton = "";
-        if (this.state.canEdit) {
-            editButton = <IconButton>
+        if (this.state.canEdit && !this.state.editingName) {
+            editButton = <IconButton
+                onClick={() => this.onEditName()}
+            >
                 <EditIcon fontSize="large"/>
+            </IconButton>
+        }
+
+        let nameArea = <Typography
+            style={{
+                fontSize: nameFontSize + "px",
+                overflow: "hidden"
+            }}
+            noWrap={true}
+        >
+            {this.state.name}
+        </Typography>
+        if (this.state.editingName) {
+            nameArea = <TextField
+                label="Change Name"
+                defaultValue={this.state.name}
+                onChange={this.onNameChange}
+            />
+        }
+
+        let acceptButton = "";
+        let cancelButton = "";
+        if (this.state.editingName) {
+            acceptButton = <IconButton
+                onClick={() => this.onAcceptName()}
+            >
+                <CheckIcon fontSize="large"/>
+            </IconButton>
+            cancelButton = <IconButton
+                onClick={() => this.onCancelName()}
+            >
+                <CloseIcon fontSize="large"/>
             </IconButton>
         }
 
@@ -95,23 +159,28 @@ class LobbyPlayer extends React.Component {
                         marginRight: namePadding + "px"
                     }}
                 >
-                    <Typography
-                        style={{
-                            fontSize: nameFontSize + "px",
-                            overflow: "hidden"
-                        }}
-                        noWrap={true}
-                    >
-                        {this.state.name}
-                    </Typography>
+                    {nameArea}
                 </div>
                 <div
                     style={{
                         float: "left",
-                        // marginBottom: "30px"
                     }}
                 >
                     {editButton}
+                </div>
+                <div
+                    style={{
+                        float: "left",
+                    }}
+                >
+                    {acceptButton}
+                </div>
+                <div
+                    style={{
+                        float: "left",
+                    }}
+                >
+                    {cancelButton}
                 </div>
             </div>
         )

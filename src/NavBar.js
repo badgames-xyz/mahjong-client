@@ -1,36 +1,39 @@
 import React from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import { Link } from "react-router-dom";
+
+import logo from './images/logoWhite.png'
 
 
 const barColour = "#264653";
-const logoColour = "#FFFFFF";
 
 const barStyle = {
     minHeight: "50px",
     backgroundColor: barColour,
 }
 
-const logoStyle = {
-    color: logoColour,
-}
-
 class NavBar extends React.Component {
+    onHome() {
+        this.context.router.push('/');
+    }
+
     render() {
         return (
             <Toolbar
                 style={barStyle}
             >
-                <Typography
-                    component={Link}
-                    to="/"
-                    variant="h5"
-                    style={logoStyle}
-                    // TODO: On click, go back to home page
-                >
-                    Bad Mahjong
-                </Typography>
+                <a href="/">
+                    <img
+                        component={Link}
+                        to="/"
+                        style={{
+                            width: "150px",
+                        }}
+                        src={logo}
+                        alt="Bad Mahjong"
+                        onClick={() => this.onHome()}
+                    />
+                </a>
             </Toolbar>
         )
     }

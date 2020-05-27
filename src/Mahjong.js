@@ -14,13 +14,15 @@ class Mahjong extends React.Component {
             ready: false,
         }
 
+        let roomCode = String(window.location.pathname).slice(1);
+
         this.state = {
             ws: this.props.ws,
-            roomCode: window.location.pathname,
+            roomCode: roomCode,
             gameStarted: false,
             lobbyData: { // example data. Replace with real data from server
                 gameID: 1234,
-                roomCode: window.location.pathname,
+                roomCode: roomCode,
                 players: [
                     you,
                     {
