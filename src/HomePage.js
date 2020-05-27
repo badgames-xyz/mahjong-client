@@ -15,14 +15,18 @@ function Home() {
         >
             <Typography
                 style={{
-                    paddingTop: "75px",
+                    paddingTop: "50px",
                     fontSize:"10rem"
                 }}
                 align="center"
             >
                 Bad Mahjong
             </Typography>
-            <div style={{paddingTop: "50px"}}/>
+            {/* <img
+                src={test}
+                alt="idk"
+            /> */}
+            <div style={{paddingTop: "20px"}}/>
             <HomeMenu/>
         </div>
     );

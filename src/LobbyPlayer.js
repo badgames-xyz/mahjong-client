@@ -70,6 +70,52 @@ class LobbyPlayer extends React.Component {
         // return a random name
         return names[Math.floor(Math.random() * names.length)]
     }
+
+    renderName(namePadding, nameWidth) {
+        let editButton = "";
+        if (this.state.canEdit) {
+            editButton = <IconButton>
+                <EditIcon fontSize="large"/>
+            </IconButton>
+        }
+
+        return (
+            <div
+                style={{
+                    margin: "15px 0 15px 0",
+                    display: "flex",
+                    alignItems: "center"
+                }}
+            >
+                <div
+                    style={{
+                        float: "left",
+                        maxWidth: nameWidth + "px",
+                        marginLeft: namePadding + "px",
+                        marginRight: namePadding + "px"
+                    }}
+                >
+                    <Typography
+                        style={{
+                            fontSize: nameFontSize + "px",
+                            overflow: "hidden"
+                        }}
+                        noWrap={true}
+                    >
+                        {this.state.name}
+                    </Typography>
+                </div>
+                <div
+                    style={{
+                        float: "left",
+                        // marginBottom: "30px"
+                    }}
+                >
+                    {editButton}
+                </div>
+            </div>
+        )
+    }
       
     updateWindowDimensions() {
         this.setState({ wWidth: window.innerWidth, wHeight: window.innerHeight });
@@ -120,13 +166,6 @@ class LobbyPlayer extends React.Component {
             </Typography>
         </Paper>
 
-        let editButton = "";
-        if (this.state.canEdit) {
-            editButton = <IconButton>
-                <EditIcon fontSize="large"/>
-            </IconButton>
-        }
-
         let totalWidth = Math.min(800, this.state.wWidth * 0.52); // in px
         let minTotalWidth = 600; // in px
 
@@ -168,31 +207,7 @@ class LobbyPlayer extends React.Component {
                             alt="Avatar Icon"
                         />
                     </div>
-                    <div
-                        style={{
-                            float: "left",
-                            maxWidth: nameWidth + "px",
-                            marginLeft: namePadding + "px",
-                            marginRight: namePadding + "px"
-                        }}
-                    >
-                        <Typography
-                            style={{
-                                fontSize: nameFontSize + "px",
-                                overflow: "hidden"
-                            }}
-                            noWrap={true}
-                        >
-                            {this.state.name}
-                        </Typography>
-                    </div>
-                    <div
-                        style={{
-                            float: "left"
-                        }}
-                    >
-                        {editButton}
-                    </div>
+                    {this.renderName(namePadding, nameWidth)}
                     <div
                         style={{
                             marginLeft: "auto",

@@ -7,6 +7,7 @@ class LobbyButtons extends React.Component {
         super(props);
 
         this.state = {
+            ws: this.props.ws,
             isHost: this.props.isHost,
             canStart: this.props.canStart,
             ready: this.props.ready,
@@ -18,8 +19,13 @@ class LobbyButtons extends React.Component {
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
 
-    onReadyButton() {
+    onReady() {
         this.props.onChangeReadyStatus();
+    }
+
+    onQuit() {
+        console.log("send")
+        this.state.ws.send("Hello from lobby button quit");
     }
 
     updateWindowDimensions() {
@@ -29,6 +35,10 @@ class LobbyButtons extends React.Component {
     componentDidMount() {
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
+
+        this.state.ws.addEventListener("message", function(event) {
+            console.log(event.data);
+        });
     }
       
     componentWillUnmount() {
@@ -117,7 +127,7 @@ class LobbyButtons extends React.Component {
                     flexDirection: "column",
                     justifyContent: "center",
                 }}
-                onClick={() => this.onReadyButton()}
+                onClick={() => this.onReady()}
             >
                 <Typography
                     style={{
@@ -172,6 +182,7 @@ class LobbyButtons extends React.Component {
                                 flexDirection: "column",
                                 justifyContent: "center",
                             }}
+                            onClick={() => this.onQuit()}
                         >
                             <Typography
                                 style={{

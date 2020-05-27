@@ -2,10 +2,7 @@ import React from 'react';
 
 import Lobby from './Lobby'
 
-const URL = "wss://echo.websocket.org"; // local testing URL
-// const URL = ""; // production URL
-
-class Game extends React.Component {
+class Mahjong extends React.Component {
     constructor(props) {
         super(props);
 
@@ -18,6 +15,7 @@ class Game extends React.Component {
         }
 
         this.state = {
+            ws: this.props.ws,
             roomCode: window.location.pathname,
             gameStarted: false,
             lobbyData: { // example data. Replace with real data from server
@@ -51,8 +49,6 @@ class Game extends React.Component {
             }
         }
     }
-
-    ws = new WebSocket(URL);
 
     // delete this once the server is set up
     changeYourStatus(cur) {
@@ -97,10 +93,6 @@ class Game extends React.Component {
         })
     }
 
-    processMessage(event) {
-        console.log(event.data);
-    }
-
     onChangeReadyStatus() {
         // use ws to tell the server that player ready status has changed
         this.changeYourStatus(this.state.lobbyData.currentPlayer.ready);
@@ -111,23 +103,9 @@ class Game extends React.Component {
     }
 
     componentDidMount() {
-        this.ws.onopen = () => {
-            // on connecting, do nothing but log it to the console
-            console.log('connected')
-        }
-    
-        this.ws.onmessage = event => {
-            // on receiving a message
-            this.processMessage(event);
-        }
-    
-        this.ws.onclose = () => {
-            console.log('disconnected')
-            // automatically try to reconnect on connection loss
-            // this.setState({
-            //     ws: new WebSocket(URL),
-            // })
-        }
+        this.state.ws.addEventListener("message", function(ev) {
+            console.log(ev.data);
+        });
     }
 
     render() {
@@ -144,7 +122,7 @@ class Game extends React.Component {
                     lobbyData={this.state.lobbyData}
                     onChangeReadyStatus={() => this.onChangeReadyStatus()}
                     onStartGame={() => this.onStartGame()}
-                    ws={this.ws}
+                    ws={this.state.ws}
                     // players={}
                 />
             )
@@ -152,4 +130,4 @@ class Game extends React.Component {
     }
 }
 
-export default Game
+export default Mahjong

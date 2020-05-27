@@ -14,6 +14,7 @@ class Lobby extends React.Component {
         super(props);
 
         this.state = {
+            ws: this.props.ws,
             lobbyData: this.props.lobbyData,
         }
     }
@@ -66,6 +67,7 @@ class Lobby extends React.Component {
                     />
                 ))}
                 <LobbyButtons
+                    ws={this.state.ws}
                     isHost={this.state.lobbyData.currentPlayer.isHost}
                     canStart={this.areAllPlayersReady()}
                     ready={this.state.lobbyData.currentPlayer.ready}
