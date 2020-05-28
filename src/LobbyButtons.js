@@ -25,7 +25,11 @@ class LobbyButtons extends React.Component {
 
     onQuit() {
         console.log("send")
-        this.state.ws.send("Hello from lobby button quit");
+        let msg = {
+            type: "join",
+            text: "cringe",
+        }
+        this.state.ws.send(JSON.stringify(msg));
     }
 
     updateWindowDimensions() {
