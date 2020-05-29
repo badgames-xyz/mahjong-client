@@ -1,23 +1,23 @@
 import React from 'react';
 import { Switch, Route, Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
+import io from 'socket.io-client'
 
 import HomePage from './HomePage'
 import Mahjong from './Mahjong'
 
 const history = createBrowserHistory();
 
-const URL = "wss://echo.websocket.org"; // local testing URL
-// const URL = ""; // production URL
+const URL = "wss://badmahjong-server.herokuapp.com"; // production URL
+// const URL = "ws://127.0.0.1:8000"; // local testing URL
 
 class App extends React.Component {
-    ws = new WebSocket(URL);
+    ws = io(URL);
 
     componentDidMount() {
-        this.ws.onopen = () => {
-            // on connecting, do nothing but log it to the console
-            console.log('connected')
-        }
+        this.ws.on('connect', () => {
+            console.log("Connected!"); // true
+        });
     
         this.ws.onmessage = event => {
             // on receiving a message
@@ -25,11 +25,7 @@ class App extends React.Component {
         }
     
         this.ws.onclose = () => {
-            console.log('disconnected')
-            // automatically try to reconnect on connection loss
-            // this.setState({
-            //     ws: new WebSocket(URL),
-            // })
+            console.log('Disconnected')
         }
     }
 
@@ -37,7 +33,11 @@ class App extends React.Component {
         return (
             <Router history={history}>
                 <Switch>
-                    <Route path="/" exact component={HomePage}/>
+                    <Route
+                        path="/"
+                        exact
+                        render={(props) => <HomePage {...props} ws={this.ws} />}
+                    />
                     <Route 
                         path='/:handle'
                         render={(props) => <Mahjong {...props} ws={this.ws} />}

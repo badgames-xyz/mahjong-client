@@ -1,4 +1,5 @@
 import React from 'react';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import NavBar from './NavBar'
 import LobbyPlayer from './LobbyPlayer'
@@ -28,11 +29,13 @@ class Lobby extends React.Component {
     }
 
     onChangeReadyStatus() {
-        // will have to send message to server
-        // this.setState({ players: this.changeStatus() })
-        this.props.ws.send("Hello")
+        // emit msg to server: this.state.ws.emit("ready", data, callback)
         this.props.onChangeReadyStatus();
         // this.render(); // need to manually call this for now until players is passed as props
+    }
+
+    componentDidMount() {
+
     }
 
     componentDidUpdate(prevProps) {
@@ -44,37 +47,61 @@ class Lobby extends React.Component {
     }
 
     render() {
-        return (
-            <div
-                style={{
-                    width: "100%",
-                    height: "100vh",
-                    backgroundColor: backgroundColour
-                }}
-            >
-                <NavBar />
-                <LobbyLink
-                    link={linkPrefix + this.state.lobbyData.roomCode}
-                />
-                {this.state.lobbyData.players.map(x => (
-                    <LobbyPlayer
-                        key={x.id}
-                        id={x.id}
-                        name={x.name}
-                        canEdit={x.isCurrentPlayer}
-                        ready={x.ready}
-                        isHost={x.isHost}
+        if (this.state.lobbyData) {
+            return (
+                <div
+                    style={{
+                        width: "100%",
+                        height: "100vh",
+                        backgroundColor: backgroundColour
+                    }}
+                >
+                    <NavBar />
+                    <LobbyLink
+                        link={linkPrefix + this.state.lobbyData.roomCode}
                     />
-                ))}
-                <LobbyButtons
-                    ws={this.state.ws}
-                    isHost={this.state.lobbyData.currentPlayer.isHost}
-                    canStart={this.areAllPlayersReady()}
-                    ready={this.state.lobbyData.currentPlayer.ready}
-                    onChangeReadyStatus={() => this.onChangeReadyStatus()}
-                />
-            </div>
-        )
+                    {this.state.lobbyData.players.map(x => (
+                        <LobbyPlayer
+                            key={x.id}
+                            id={x.id}
+                            name={x.name}
+                            iconIndex={x.iconIndex}
+                            canEdit={x.id === this.state.lobbyData.currentPlayer.id}
+                            ready={x.ready}
+                            isHost={x.isHost}
+                        />
+                    ))}
+                    <LobbyButtons
+                        ws={this.state.ws}
+                        isHost={this.state.lobbyData.currentPlayer.isHost}
+                        canStart={this.areAllPlayersReady()}
+                        ready={this.state.lobbyData.currentPlayer.ready}
+                        onChangeReadyStatus={() => this.onChangeReadyStatus()}
+                    />
+                </div>
+            )
+        } else {
+            return (
+                <div
+                    style={{
+                        width: "100%",
+                        height: "100vh",
+                        backgroundColor: backgroundColour
+                    }}
+                >
+                    <NavBar />
+                    <div
+                        style={{
+                            margin: "auto",
+                            marginTop: "25%",
+                            textAlign: "center",
+                        }}
+                    >
+                        <CircularProgress />
+                    </div>
+                </div>
+            )
+        }
     }
 }
 

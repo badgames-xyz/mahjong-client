@@ -1,9 +1,7 @@
 import React from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
-import { Link } from "react-router-dom";
 
 import logo from './images/logoWhite.png'
-
 
 const barColour = "#264653";
 
@@ -13,10 +11,6 @@ const barStyle = {
 }
 
 class NavBar extends React.Component {
-    onHome() {
-        this.context.router.push('/');
-    }
-
     render() {
         return (
             <Toolbar
@@ -24,14 +18,11 @@ class NavBar extends React.Component {
             >
                 <a href="/">
                     <img
-                        component={Link}
-                        to="/"
                         style={{
                             width: "150px",
                         }}
                         src={logo}
                         alt="Bad Mahjong"
-                        onClick={() => this.onHome()}
                     />
                 </a>
             </Toolbar>

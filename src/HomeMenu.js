@@ -89,7 +89,6 @@ class HomeMenu extends React.Component {
                 <div
                     style={{
                         float: "left",
-                        // marginLeft: "auto",
                         width: hrWidth + "%",
                         minWidth: minHrWidth + "px",
                     }}
@@ -104,6 +103,10 @@ class HomeMenu extends React.Component {
         this.setState({
             roomCode: e.target.value
         });
+    }
+
+    createRoom() {
+        this.props.createRoom();
     }
 
     render() {
@@ -137,11 +140,9 @@ class HomeMenu extends React.Component {
                     }}
                 >
                     <Button
-                        // component={Link}
-                        // to="create"
                         style={buttonStyle}
-                        // fullWidth={true}
                         variant="contained"
+                        onClick={() => this.createRoom()}
                     >
                         <Typography variant="h3">
                             Create a Room
@@ -165,7 +166,6 @@ class HomeMenu extends React.Component {
                     >
                         <TextField
                             style={textBoxStyle}
-                            // size="medium"
                             InputProps={{
                                 style: {
                                     fontSize: "27px"

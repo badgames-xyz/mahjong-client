@@ -25,19 +25,6 @@ const statusBarFontSize = 25; // in px
 const notReadyColour = "#FFADAD"; // #E76F51
 const readyColour = "#FDFFB6"; // #FDFFB6 E9C46A
 
-const names = [
-    "Half Pounder",
-    "Medium Mac",
-    "Small Mac",
-    "Senior Chicken",
-    "Snacc Wrap",
-    "Sad Meal",
-    "Broiled Apple Pie",
-    "Chicken Nuggies",
-    "Triple Cheeseburger",  
-    "Dinner Sandwich",
-]
-
 const icons = [
     yuta,
     poggers,
@@ -50,12 +37,9 @@ class LobbyPlayer extends React.Component {
         super(props);
 
         this.state = {
-            // player: this.props.player,
-            // player will have fields: id, iconIndex, name, ready, isHost
-            // canedit must be passed from parent Lobby
             id: this.props.id,
             canEdit: this.props.canEdit,
-            icon: this.randomIcon(),
+            icon: icons[this.props.iconIndex],
             name: this.props.name,
             ready: this.props.ready,
             isHost: this.props.isHost,
@@ -73,11 +57,6 @@ class LobbyPlayer extends React.Component {
     randomIcon() {
         // return a random avatar icon
         return icons[Math.floor(Math.random() * icons.length)]
-    }
-
-    randomName() {
-        // return a random name
-        return names[Math.floor(Math.random() * names.length)]
     }
 
     onEditName() {

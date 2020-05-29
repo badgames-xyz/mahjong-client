@@ -6,98 +6,29 @@ class Mahjong extends React.Component {
     constructor(props) {
         super(props);
 
-        let you = {
-            id: "Player 1",
-            name: "Small Mac",
-            isCurrentPlayer: true,
-            isHost: false,
-            ready: false,
-        }
-
         let roomCode = String(window.location.pathname).slice(1);
 
         this.state = {
+            lobbyMethod: "join", 
             ws: this.props.ws,
             roomCode: roomCode,
             gameStarted: false,
-            lobbyData: { // example data. Replace with real data from server
-                gameID: 1234,
-                roomCode: roomCode,
-                players: [
-                    you,
-                    {
-                        id: "Player 2",
-                        name: "Sad Meal",
-                        isCurrentPlayer: false,
-                        isHost: false,
-                        ready: false,
-                    },
-                    {
-                        id: "Player 3",
-                        name: "Triple Cheeseburger",
-                        isCurrentPlayer: false,
-                        isHost: false,
-                        ready: true,
-                    },
-                    {
-                        id: "Player 4",
-                        name: "Chicken Nuggies",
-                        isCurrentPlayer: false,
-                        isHost: false,
-                        ready: false,
-                    }
-                ],
-                currentPlayer: you,
-            }
-        }
-    }
-
-    // delete this once the server is set up
-    changeYourStatus(cur) {
-        let you = {
-            id: "Player 1",
-            name: "Small Mac",
-            isCurrentPlayer: true,
-            isHost: false,
-            ready: !cur,
+            lobbyData: null,
         }
 
-        this.setState({
-            lobbyData: { // example data. Replace with real data from server
-                gameID: 1234,
-                roomCode: this.props.match.params.handle,
-                players: [
-                    you,
-                    {
-                        id: "Player 2",
-                        name: "Sad Meal",
-                        isCurrentPlayer: false,
-                        isHost: false,
-                        ready: false,
-                    },
-                    {
-                        id: "Player 3",
-                        name: "Triple Cheeseburger",
-                        isCurrentPlayer: false,
-                        isHost: false,
-                        ready: true,
-                    },
-                    {
-                        id: "Player 4",
-                        name: "Chicken Nuggies",
-                        isCurrentPlayer: false,
-                        isHost: false,
-                        ready: false,
-                    }
-                ],
-                currentPlayer: you,
+        if (this.props.location.state) {
+            if (this.props.location.state.lobbyData) {
+                this.state.lobbyData = this.props.location.state.lobbyData
             }
-        })
+
+            if (this.props.location.state.lobbyMethod) {
+                this.state.lobbyMethod = this.props.location.state.lobbyMethod
+            }
+        }
     }
 
     onChangeReadyStatus() {
         // use ws to tell the server that player ready status has changed
-        this.changeYourStatus(this.state.lobbyData.currentPlayer.ready);
     }
 
     onStartGame() {
@@ -105,9 +36,19 @@ class Mahjong extends React.Component {
     }
 
     componentDidMount() {
-        this.state.ws.addEventListener("message", function(ev) {
-            console.log(ev.data);
-        });
+        if (this.state.lobbyMethod === "join") {
+            let data = { roomCode: this.state.roomCode }
+            this.state.ws.emit(
+                "join",
+                JSON.stringify(data)
+            );
+        }
+
+        this.state.ws.on("lobbyData", (lobbyData) => {
+            this.setState({
+                lobbyData: lobbyData,
+            })
+        })
     }
 
     render() {
@@ -120,12 +61,10 @@ class Mahjong extends React.Component {
         } else {
             return (
                 <Lobby
-                    // roomCode={this.state.roomCode}
                     lobbyData={this.state.lobbyData}
                     onChangeReadyStatus={() => this.onChangeReadyStatus()}
                     onStartGame={() => this.onStartGame()}
                     ws={this.state.ws}
-                    // players={}
                 />
             )
         }

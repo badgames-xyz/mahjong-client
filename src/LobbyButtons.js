@@ -29,7 +29,7 @@ class LobbyButtons extends React.Component {
             type: "join",
             text: "cringe",
         }
-        this.state.ws.send(JSON.stringify(msg));
+        this.state.ws.emit("message", JSON.stringify(msg));
     }
 
     updateWindowDimensions() {
@@ -41,8 +41,12 @@ class LobbyButtons extends React.Component {
         window.addEventListener('resize', this.updateWindowDimensions);
 
         this.state.ws.addEventListener("message", function(event) {
-            console.log(event.data);
+            console.log(event);
         });
+
+        this.state.ws.on("message", (data) => {
+            console.log(data);
+        })
     }
       
     componentWillUnmount() {
