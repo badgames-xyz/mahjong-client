@@ -35,7 +35,7 @@ class Lobby extends React.Component {
     }
 
     onChangeName(name) {
-        let data = { name: name };
+        let data = { roomCode: this.state.lobbyData.roomCode, name: name };
         this.state.ws.emit("changeName", JSON.stringify(data))
     }
 
