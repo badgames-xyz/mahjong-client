@@ -121,8 +121,8 @@ class HomeMenu extends React.Component {
                     }}
                 >
                     <Button
-                        // component={Link}
-                        // to="singleplayer"
+                        component={Link}
+                        to="testgame"
                         style={buttonStyle}
                         variant="contained"
                     >

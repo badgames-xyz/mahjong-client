@@ -7,10 +7,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import TextField from '@material-ui/core/TextField';
 
-import yuta from './images/icons/ghettoyuta.png'
-import poggers from './images/icons/poggers.png'
-import rila from './images/icons/rila.png'
-import yessir from './images/icons/yessir.png'
+import { getIcon } from './Pictures'
 
 const iconBorderColour = "#264653";
 const iconBorderWidth = 2; // in px
@@ -25,13 +22,6 @@ const statusBarFontSize = 25; // in px
 const notReadyColour = "#FFADAD"; // #E76F51
 const readyColour = "#FDFFB6"; // #FDFFB6 E9C46A
 
-const icons = [
-    yuta,
-    poggers,
-    rila,
-    yessir,
-]
-
 class LobbyPlayer extends React.Component {
     constructor(props) {
         super(props);
@@ -39,7 +29,7 @@ class LobbyPlayer extends React.Component {
         this.state = {
             id: this.props.id,
             canEdit: this.props.canEdit,
-            icon: icons[this.props.iconIndex],
+            icon: getIcon(this.props.iconIndex),
             name: this.props.name,
             ready: this.props.ready,
             isHost: this.props.isHost,
@@ -52,11 +42,6 @@ class LobbyPlayer extends React.Component {
         }
 
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
-    }
-
-    randomIcon() {
-        // return a random avatar icon
-        return icons[Math.floor(Math.random() * icons.length)]
     }
 
     onEditName() {

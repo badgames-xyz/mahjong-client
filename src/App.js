@@ -5,6 +5,7 @@ import io from 'socket.io-client'
 
 import HomePage from './HomePage'
 import Mahjong from './Mahjong'
+import Game from './Game'
 
 const history = createBrowserHistory();
 
@@ -37,6 +38,11 @@ class App extends React.Component {
                         path="/"
                         exact
                         render={(props) => <HomePage {...props} ws={this.ws} />}
+                    />
+                    <Route
+                        path="/testgame"
+                        exact
+                        render={(props) => <Game {...props} ws={this.ws} />}
                     />
                     <Route 
                         path='/:handle'

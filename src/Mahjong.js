@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Lobby from './Lobby'
+import Game from './Game'
 
 class Mahjong extends React.Component {
     constructor(props) {
@@ -14,6 +15,7 @@ class Mahjong extends React.Component {
             roomCode: roomCode,
             gameStarted: false,
             lobbyData: null,
+            gameData: null,
         }
 
         if (this.props.location.state) {
@@ -32,7 +34,8 @@ class Mahjong extends React.Component {
     }
 
     onStartGame() {
-
+        let data = {};
+        this.state.ws.emit("startGame", JSON.stringify(data));
     }
 
     componentDidMount() {
@@ -49,14 +52,22 @@ class Mahjong extends React.Component {
                 lobbyData: lobbyData,
             })
         })
+
+        this.state.ws.on("gameData", (gameData) => {
+            this.setState({
+                gameStarted: true,
+                gameData: gameData
+            })
+        })
     }
 
     render() {
         if (this.state.gameStarted) {
             return (
-                <div>
-                    Not Implemented Yet
-                </div>
+                <Game
+                    gameData={this.state.gameData}
+                    ws={this.state.ws}
+                />
             )
         } else {
             return (
