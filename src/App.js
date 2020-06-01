@@ -6,6 +6,7 @@ import io from 'socket.io-client'
 import HomePage from './HomePage'
 import Mahjong from './Mahjong'
 import Game from './Game'
+import LobbyDNE from './LobbyDNE';
 
 const history = createBrowserHistory();
 
@@ -43,6 +44,11 @@ class App extends React.Component {
                         path="/testgame"
                         exact
                         render={(props) => <Game {...props} ws={this.ws} />}
+                    />
+                    <Route
+                        path="/dne"
+                        exact
+                        render={(props) => <LobbyDNE {...props} />}
                     />
                     <Route 
                         path='/:handle'

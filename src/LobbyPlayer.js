@@ -52,6 +52,8 @@ class LobbyPlayer extends React.Component {
         this.setState({
             editingName: false,
             name: this.state.newName,
+        }, () => {
+            this.props.onChangeName(this.state.name);
         });
     }
 

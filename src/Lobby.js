@@ -34,6 +34,11 @@ class Lobby extends React.Component {
         // this.render(); // need to manually call this for now until players is passed as props
     }
 
+    onChangeName(name) {
+        let data = { name: name };
+        this.state.ws.emit("changeName", JSON.stringify(data))
+    }
+
     componentDidMount() {
 
     }
@@ -69,6 +74,7 @@ class Lobby extends React.Component {
                             canEdit={x.id === this.state.lobbyData.currentPlayer.id}
                             ready={x.ready}
                             isHost={x.isHost}
+                            onChangeName={(name) => this.onChangeName(name)}
                         />
                     ))}
                     <LobbyButtons

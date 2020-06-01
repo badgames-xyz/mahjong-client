@@ -2,6 +2,7 @@ import React from 'react';
 
 import Lobby from './Lobby'
 import Game from './Game'
+import LobbyDNE from './LobbyDNE'
 
 class Mahjong extends React.Component {
     constructor(props) {
@@ -10,7 +11,8 @@ class Mahjong extends React.Component {
         let roomCode = String(window.location.pathname).slice(1);
 
         this.state = {
-            lobbyMethod: "join", 
+            lobbyMethod: "join",
+            lobbyDNE: false,
             ws: this.props.ws,
             roomCode: roomCode,
             gameStarted: false,
@@ -53,6 +55,13 @@ class Mahjong extends React.Component {
             })
         })
 
+        this.state.ws.on("error", (err) => {
+            console.log(err.code);
+            this.setState({
+                lobbyDNE: true,
+            })
+        })
+
         this.state.ws.on("gameData", (gameData) => {
             this.setState({
                 gameStarted: true,
@@ -68,6 +77,10 @@ class Mahjong extends React.Component {
                     gameData={this.state.gameData}
                     ws={this.state.ws}
                 />
+            )
+        } else if (this.state.lobbyDNE) {
+            return (
+                <LobbyDNE />
             )
         } else {
             return (
