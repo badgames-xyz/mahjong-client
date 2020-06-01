@@ -171,6 +171,21 @@ class LobbyPlayer extends React.Component {
                 ready: this.props.ready
             })
         }
+        if (prevProps.name !== this.props.name) {
+            this.setState({
+                name: this.props.name
+            })
+        }
+        if (prevProps.ready !== this.props.ready) {
+            this.setState({
+                ready: this.props.ready
+            })
+        }
+        if (prevProps.iconIndex !== this.props.iconIndex) {
+            this.setState({
+                iconIndex: this.props.iconIndex
+            })
+        }
     }
 
     render() {
