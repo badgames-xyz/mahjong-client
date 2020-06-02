@@ -17,6 +17,7 @@ class Lobby extends React.Component {
         this.state = {
             ws: this.props.ws,
             lobbyData: this.props.lobbyData,
+            statusButtonAvailable: true,
         }
     }
 
@@ -28,25 +29,41 @@ class Lobby extends React.Component {
         return ready;
     }
 
-    onChangeReadyStatus() {
-        // emit msg to server: this.state.ws.emit("ready", data, callback)
-        this.props.onChangeReadyStatus();
-        // this.render(); // need to manually call this for now until players is passed as props
-    }
-
     onChangeName(name) {
         let data = { roomCode: this.state.lobbyData.roomCode, name: name };
-        this.state.ws.emit("changeName", JSON.stringify(data))
+        this.state.ws.emit("changeName", JSON.stringify(data));
     }
 
-    componentDidMount() {
+    onReady() {
+        let data = { roomCode: this.state.lobbyData.roomCode };
+        this.state.ws.emit("ready", JSON.stringify(data));
+        this.setState({
+            statusButtonAvailable: false,
+        })
+    }
+
+    onNotReady() {
+        let data = { roomCode: this.state.lobbyData.roomCode };
+        this.state.ws.emit("notReady", JSON.stringify(data));
+        this.setState({
+            statusButtonAvailable: false,
+        })
+    }
+
+    onLeave() {
+        let data = { roomCode: this.state.lobbyData.roomCode };
+        this.state.ws.emit("leave", JSON.stringify(data));
+    }
+
+    componentWillUnmount() {
 
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.lobbyData !== this.props.lobbyData) {
             this.setState({
-                lobbyData: this.props.lobbyData
+                lobbyData: this.props.lobbyData,
+                statusButtonAvailable: true,
             })
         }
     }
@@ -61,7 +78,9 @@ class Lobby extends React.Component {
                         backgroundColor: backgroundColour
                     }}
                 >
-                    <NavBar />
+                    <NavBar
+                        onClickLogo={() => this.onLeave()}
+                    />
                     <LobbyLink
                         link={linkPrefix + this.state.lobbyData.roomCode}
                     />
@@ -82,7 +101,10 @@ class Lobby extends React.Component {
                         isHost={this.state.lobbyData.currentPlayer.isHost}
                         canStart={this.areAllPlayersReady()}
                         ready={this.state.lobbyData.currentPlayer.ready}
-                        onChangeReadyStatus={() => this.onChangeReadyStatus()}
+                        onReady={() => this.onReady()}
+                        onNotReady={() => this.onNotReady()}
+                        onLeave={() => this.onLeave()}
+                        statusButtonAvailable={this.state.statusButtonAvailable}
                     />
                 </div>
             )
@@ -95,7 +117,9 @@ class Lobby extends React.Component {
                         backgroundColor: backgroundColour
                     }}
                 >
-                    <NavBar />
+                    <NavBar
+                        onClickLogo={() => {}}
+                    />
                     <div
                         style={{
                             margin: "auto",

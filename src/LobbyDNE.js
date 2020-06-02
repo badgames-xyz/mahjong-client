@@ -34,15 +34,22 @@ class LobbyDNE extends React.Component {
                     width: "100%",
                     height: "100vh",
                     backgroundColor: backgroundColour,
-                    textAlign: "center"
                 }}
             >
-                <NavBar />
+                <NavBar
+                    onClickLogo={() => {}}
+                />
                 <div style={{paddingTop: "15%"}}/>
-                <Typography
-                    variant="h4">
-                    Lobby Does Not Exist
-                </Typography>
+                <div
+                    style={{
+                        textAlign: "center"
+                    }}
+                >
+                    <Typography
+                        variant="h4">
+                        Lobby Does Not Exist
+                    </Typography>
+                </div>
                 <div style={{paddingTop: "20px"}}/>
                 <div
                     style={{

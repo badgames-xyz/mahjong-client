@@ -31,13 +31,41 @@ class Mahjong extends React.Component {
         }
     }
 
-    onChangeReadyStatus() {
-        // use ws to tell the server that player ready status has changed
-    }
-
     onStartGame() {
         let data = {};
         this.state.ws.emit("startGame", JSON.stringify(data));
+    }
+
+    lobbyDataListener = (lobbyData) => {
+        console.log(lobbyData)
+        this.setState({
+            lobbyData: lobbyData,
+        })
+    }
+
+    errorListener = (err) => {
+        console.log(err.code);
+        this.setState({
+            lobbyDNE: true,
+        })
+    }
+
+    gameDataListener = (gameData) => {
+        this.setState({
+            gameStarted: true,
+            gameData: gameData,
+        })
+    }
+
+    onLeave() {
+        let data = { roomCode: this.state.lobbyData.roomCode };
+        this.state.ws.emit("leave", JSON.stringify(data));
+    }
+
+    onRefresh = (event) => {
+        let data = { roomCode: this.state.lobbyData.roomCode };
+        this.state.ws.emit("leave", JSON.stringify(data));
+        this.setState({ lobbyMethod: "join" })
     }
 
     componentDidMount() {
@@ -47,27 +75,37 @@ class Mahjong extends React.Component {
                 "join",
                 JSON.stringify(data)
             );
+        } else {
+            let data = { roomCode: this.state.roomCode }
+            this.state.ws.emit(
+                "refresh",
+                JSON.stringify(data)
+            )
         }
 
-        this.state.ws.on("lobbyData", (lobbyData) => {
-            this.setState({
-                lobbyData: lobbyData,
-            })
-        })
+        this.state.ws.on("lobbyData", this.lobbyDataListener);
 
-        this.state.ws.on("error", (err) => {
-            console.log(err.code);
-            this.setState({
-                lobbyDNE: true,
-            })
-        })
+        this.state.ws.on("error", this.errorListener);
 
-        this.state.ws.on("gameData", (gameData) => {
+        this.state.ws.on("gameData", this.gameDataListener);
+
+        window.addEventListener("beforeunload", this.onRefresh)
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowDimensions);
+        window.removeEventListener("beforeunload", this.onRefresh)
+        this.state.ws.off("lobbyData", this.lobbyDataListener)
+        this.state.ws.off("error", this.errorListener)
+        this.state.ws.off("gameData", this.gameDataListener)
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.lobbyData !== this.props.lobbyData) {
             this.setState({
-                gameStarted: true,
-                gameData: gameData
+                lobbyData: this.props.lobbyData
             })
-        })
+        }
     }
 
     render() {

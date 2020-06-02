@@ -1,16 +1,17 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 
 class LobbyButtons extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            ws: this.props.ws,
             isHost: this.props.isHost,
             canStart: this.props.canStart,
             ready: this.props.ready,
+            statusButtonAvailable: this.props.statusButtonAvailable,
 
             wWidth: 0,
             wHeight: 0,
@@ -20,16 +21,15 @@ class LobbyButtons extends React.Component {
     }
 
     onReady() {
-        this.props.onChangeReadyStatus();
+        this.props.onReady();
     }
 
-    onQuit() {
-        console.log("send")
-        let msg = {
-            type: "join",
-            text: "cringe",
-        }
-        this.state.ws.emit("message", JSON.stringify(msg));
+    onNotReady() {
+        this.props.onNotReady();
+    }
+
+    onLeave() {
+        this.props.onLeave();
     }
 
     updateWindowDimensions() {
@@ -39,14 +39,6 @@ class LobbyButtons extends React.Component {
     componentDidMount() {
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
-
-        this.state.ws.addEventListener("message", function(event) {
-            console.log(event);
-        });
-
-        this.state.ws.on("message", (data) => {
-            console.log(data);
-        })
     }
       
     componentWillUnmount() {
@@ -67,6 +59,11 @@ class LobbyButtons extends React.Component {
         if (prevProps.canStart !== this.props.canStart) {
             this.setState({
                 canStart: this.props.canStart
+            })
+        }
+        if (prevProps.statusButtonAvailable !== this.props.statusButtonAvailable) {
+            this.setState({
+                statusButtonAvailable: this.props.statusButtonAvailable
             })
         }
     }
@@ -135,7 +132,8 @@ class LobbyButtons extends React.Component {
                     flexDirection: "column",
                     justifyContent: "center",
                 }}
-                onClick={() => this.onReady()}
+                onClick={() => {if (this.state.ready) this.onNotReady(); else this.onReady()}}
+                disabled={!this.state.statusButtonAvailable}
             >
                 <Typography
                     style={{
@@ -181,6 +179,8 @@ class LobbyButtons extends React.Component {
                         }}
                     >
                         <Button
+                            component={Link}
+                            to="/"
                             variant="contained"
                             style={{
                                 width: buttonWidth + "px",
@@ -190,7 +190,7 @@ class LobbyButtons extends React.Component {
                                 flexDirection: "column",
                                 justifyContent: "center",
                             }}
-                            onClick={() => this.onQuit()}
+                            onClick={() => this.onLeave()}
                         >
                             <Typography
                                 style={{

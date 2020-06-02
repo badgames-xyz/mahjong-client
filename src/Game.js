@@ -42,7 +42,9 @@ class Game extends React.Component {
 
         return (
             <div>
-                <NavBar />
+                <NavBar
+                    onClickLogo={() => {}}
+                />
                 <div
                     style={{
                         width: "100%",

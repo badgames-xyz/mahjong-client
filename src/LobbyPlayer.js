@@ -5,6 +5,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
+import StarsIcon from '@material-ui/icons/Stars';
 import TextField from '@material-ui/core/TextField';
 
 import { getIcon } from './Pictures'
@@ -12,6 +13,9 @@ import { getIcon } from './Pictures'
 const iconBorderColour = "#264653";
 const iconBorderWidth = 2; // in px
 const iconDiameter = 100; // in px
+
+const hostIconWidth = 35; // in px
+const hostIconPadding = 15; // in px
 
 const nameFontSize = 30; // in px
 
@@ -109,6 +113,11 @@ class LobbyPlayer extends React.Component {
             </IconButton>
         }
 
+        let hostIcon = "";
+        if (this.state.isHost) {
+            hostIcon = <StarsIcon fontSize="large"/>
+        }
+
         return (
             <div
                 style={{
@@ -117,6 +126,14 @@ class LobbyPlayer extends React.Component {
                     alignItems: "center"
                 }}
             >
+                <div
+                    style={{
+                        float: "left",
+                        marginLeft: hostIconPadding + "px"
+                    }}
+                >
+                    {hostIcon}
+                </div>
                 <div
                     style={{
                         float: "left",
@@ -186,6 +203,11 @@ class LobbyPlayer extends React.Component {
                 iconIndex: this.props.iconIndex
             })
         }
+        if (prevProps.isHost !== this.props.isHost) {
+            this.setState({
+                isHost: this.props.isHost
+            })
+        }
     }
 
     render() {
@@ -221,6 +243,9 @@ class LobbyPlayer extends React.Component {
 
         const namePadding = 15; // in px
         let widthRemaining = iconDiameter + (2 * (iconBorderWidth + namePadding)) + statusBarWidth + 2;
+        if (this.state.isHost) {
+            widthRemaining = widthRemaining + (hostIconWidth + hostIconPadding);
+        }
         let nameWidth = Math.max(totalWidth, minTotalWidth) - widthRemaining;
         if (this.state.canEdit) {
             nameWidth = Math.max(totalWidth, minTotalWidth) - (widthRemaining + 59);
