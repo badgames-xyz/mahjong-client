@@ -37,14 +37,13 @@ class Mahjong extends React.Component {
     }
 
     lobbyDataListener = (lobbyData) => {
-        console.log(lobbyData)
         this.setState({
             lobbyData: lobbyData,
         })
     }
 
     errorListener = (err) => {
-        console.log(err.code);
+        console.log(`Error Code: ${err.code}`);
         this.setState({
             lobbyDNE: true,
         })
