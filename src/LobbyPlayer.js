@@ -178,7 +178,6 @@ class LobbyPlayer extends React.Component {
 
     selectIcon(index) {
         this.setState({
-            iconIndex: index,
             changeIcon: false,
         }, () => {
             this.props.onChangeIcon(index);
