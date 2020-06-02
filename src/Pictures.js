@@ -19,6 +19,10 @@ export function getIcon(index) {
     return icons[index];
 }
 
+export function getAllIcons() {
+    return icons;
+}
+
 const cards = {
     "east": east,
     "west": west,

@@ -29,6 +29,11 @@ class Lobby extends React.Component {
         return ready;
     }
 
+    onChangeIcon(index) {
+        let data = { roomCode: this.state.lobbyData.roomCode, iconIndex: index };
+        this.state.ws.emit("changeIcon", JSON.stringify(data));
+    }
+
     onChangeName(name) {
         let data = { roomCode: this.state.lobbyData.roomCode, name: name };
         this.state.ws.emit("changeName", JSON.stringify(data));
@@ -94,6 +99,7 @@ class Lobby extends React.Component {
                             ready={x.ready}
                             isHost={x.isHost}
                             onChangeName={(name) => this.onChangeName(name)}
+                            onChangeIcon={(index) => this.onChangeIcon(index)}
                         />
                     ))}
                     <LobbyButtons

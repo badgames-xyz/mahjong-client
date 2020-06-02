@@ -7,17 +7,22 @@ import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import StarsIcon from '@material-ui/icons/Stars';
 import TextField from '@material-ui/core/TextField';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import Button from '@material-ui/core/Button';
 
-import { getIcon } from './Pictures'
+import { getIcon, getAllIcons } from './Pictures'
 
 const iconBorderColour = "#264653";
 const iconBorderWidth = 2; // in px
-const iconDiameter = 100; // in px
+const iconDiameter = 75; // in px
 
 const hostIconWidth = 35; // in px
 const hostIconPadding = 15; // in px
 
-const nameFontSize = 30; // in px
+const nameFontSize = 25; // in px
 
 const statusBarWidth = 160; // in px
 const statusBarHeight = 60; // in px
@@ -33,13 +38,15 @@ class LobbyPlayer extends React.Component {
         this.state = {
             id: this.props.id,
             canEdit: this.props.canEdit,
-            icon: getIcon(this.props.iconIndex),
+            iconIndex: this.props.iconIndex,
             name: this.props.name,
             ready: this.props.ready,
             isHost: this.props.isHost,
 
             editingName: false,
             newName: this.props.name,
+
+            changeIcon: false,
 
             wWidth: 0,
             wHeight: 0,
@@ -168,6 +175,58 @@ class LobbyPlayer extends React.Component {
             </div>
         )
     }
+
+    selectIcon(index) {
+        this.setState({
+            iconIndex: index,
+            changeIcon: false,
+        }, () => {
+            this.props.onChangeIcon(index);
+        });
+    }
+
+    closeChangeIconDialog() {
+        this.setState({ changeIcon: false });
+    }
+
+    changeIconDialog(open) {
+        return (
+            <Dialog onClose={() => this.closeChangeIconDialog()} open={open}>
+                <DialogTitle>Choose Icon</DialogTitle>
+                {getAllIcons().map((icon, index) => (
+                    <IconButton
+                        key={index}
+                        style={{
+                            width: "100px",
+                            height: "100px",
+                            margin: "0 auto",
+                        }}
+                        onClick={() => this.selectIcon(index)}
+                    >
+                        <img
+                            style={{
+                                width: iconDiameter + "px",
+                                height: iconDiameter + "px",
+                                borderRadius: "50%",
+                                border: iconBorderWidth + "px solid " + iconBorderColour
+                            }}
+                            src={icon}
+                            alt="Avatar Icon"
+                        />
+                    </IconButton>
+                ))}
+                <DialogActions>
+                    <Button
+                        autoFocus
+                        color="primary"
+                        onClick={() => this.closeChangeIconDialog()}
+                    >
+                        Cancel
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        )
+    }
       
     updateWindowDimensions() {
         this.setState({ wWidth: window.innerWidth, wHeight: window.innerHeight });
@@ -259,6 +318,7 @@ class LobbyPlayer extends React.Component {
                     margin: "0 auto",
                 }}
             >
+                {this.changeIconDialog(this.state.changeIcon)}
                 <div
                     style={{
                         margin: "15px 0 15px 0",
@@ -271,16 +331,24 @@ class LobbyPlayer extends React.Component {
                             float: "left",
                         }}
                     >
-                        <img
+                        <CardActionArea
+                            disableRipple
                             style={{
-                                width: iconDiameter + "px",
-                                height: iconDiameter + "px",
                                 borderRadius: "50%",
-                                border: iconBorderWidth + "px solid " + iconBorderColour
                             }}
-                            src={this.state.icon}
-                            alt="Avatar Icon"
-                        />
+                        >
+                            <img
+                                style={{
+                                    width: iconDiameter + "px",
+                                    height: iconDiameter + "px",
+                                    borderRadius: "50%",
+                                    border: iconBorderWidth + "px solid " + iconBorderColour
+                                }}
+                                src={getIcon(this.state.iconIndex)}
+                                alt="Avatar Icon"
+                                onClick={() => {this.setState({ changeIcon: this.state.canEdit })}}
+                            />
+                        </CardActionArea>
                     </div>
                     {this.renderName(namePadding, nameWidth)}
                     <div
