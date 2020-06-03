@@ -55,6 +55,11 @@ class Lobby extends React.Component {
         })
     }
 
+    onStart() {
+        let data = { roomCode: this.state.lobbyData.roomCode };
+        this.state.ws.emit("startGame", JSON.stringify(data));
+    }
+
     onLeave() {
         let data = { roomCode: this.state.lobbyData.roomCode };
         this.state.ws.emit("leave", JSON.stringify(data));
@@ -109,6 +114,7 @@ class Lobby extends React.Component {
                         ready={this.state.lobbyData.currentPlayer.ready}
                         onReady={() => this.onReady()}
                         onNotReady={() => this.onNotReady()}
+                        onStart={() => this.onStart()}
                         onLeave={() => this.onLeave()}
                         statusButtonAvailable={this.state.statusButtonAvailable}
                     />

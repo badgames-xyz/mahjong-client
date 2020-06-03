@@ -28,6 +28,10 @@ class LobbyButtons extends React.Component {
         this.props.onNotReady();
     }
 
+    onStart() {
+        this.props.onStart();
+    }
+
     onLeave() {
         this.props.onLeave();
     }
@@ -102,7 +106,7 @@ class LobbyButtons extends React.Component {
                     justifyContent: "center",
                 }}
                 disabled={!buttonActive}
-                // onClick={() => this.onReadyButton()}
+                onClick={() => this.onStart()}
             >
                 <Typography
                     style={{
