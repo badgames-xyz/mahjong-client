@@ -34,11 +34,17 @@ class Game extends React.Component {
 
     render() {
         const navBarHeight = 50; // px
-        const yourAreaHeight = this.state.wHeight * 0.25;
-        const otherAreaHeight = this.state.wHeight - (yourAreaHeight + navBarHeight);
+        const otherAreaHeight = this.state.wHeight - navBarHeight;
+        const yourAreaHeight = otherAreaHeight * 0.25;
 
         const sidePanelWidth = this.state.wWidth * 0.20; // px
+        const sidePanelHeight = otherAreaHeight - yourAreaHeight; // px
+        const sidePlayerHeight = sidePanelHeight * 0.80; // px
+
         const centerPanelWidth = this.state.wWidth - (2 * sidePanelWidth); // px
+        const centerPanelHeight = sidePanelHeight;
+
+        const topPlayerHeight = otherAreaHeight * 0.20; // px
 
         return (
             <div>
@@ -47,8 +53,8 @@ class Game extends React.Component {
                 />
                 <div
                     style={{
-                        width: "100%",
-                        height: otherAreaHeight + "px",
+                        width: this.state.wWidth + "px",
+                        height: (otherAreaHeight - yourAreaHeight) + "px",
                         background: "gray",
                         display: "flex",
                     }}
@@ -56,15 +62,14 @@ class Game extends React.Component {
                     <div // left panel
                         style={{
                             width: sidePanelWidth + "px",
-                            height: "100%",
+                            height: sidePanelHeight + "px",
                             float: "left",
                             background: "#669999"
                         }}
                     >
                         <div
                             style={{
-                                width: "100%",
-                                height: "20%",
+                                height: (sidePanelHeight - sidePlayerHeight) + "px",
                                 background: "#996633"
                             }}
                         >
@@ -72,28 +77,28 @@ class Game extends React.Component {
                         </div>
                         <div
                             style={{
-                                width: "100%",
-                                height: "80%",
+                                height: sidePlayerHeight + "px",
                                 background: "#d96633"
                             }}
                         >
                             <Player
                                 position="left"
+                                wWidth={sidePanelWidth}
+                                wHeight={sidePlayerHeight}
                             />
                         </div>
                     </div>
                     <div // middle panel
                         style={{
                             width: centerPanelWidth + "px",
-                            height: "100%",
+                            height: centerPanelHeight + "px",
                             float: "left",
                             background: "#869999"
                         }}
                     >
                         <div
                             style={{
-                                width: "100%",
-                                height: "30%",
+                                height: topPlayerHeight + "px",
                                 background: "#660066",
                                 margin: "0 auto"
                             }}
@@ -104,8 +109,7 @@ class Game extends React.Component {
                         </div>
                         <div
                             style={{
-                                width: "100%",
-                                height: "70%",
+                                height: (centerPanelHeight - topPlayerHeight) + "px",
                                 background: "#260066"
                             }}
                         >
@@ -115,15 +119,15 @@ class Game extends React.Component {
                     <div // right panel
                         style={{
                             width: sidePanelWidth + "px",
-                            height: "100%",
+                            height: sidePanelHeight + "px",
                             float: "left",
-                            background: "#a69999"
+                            background: "#a69999",
+                            border: "1px black",
                         }}
                     >
                         <div
                             style={{
-                                width: "100%",
-                                height: "20%",
+                                height: (sidePanelHeight - sidePlayerHeight) + "px",
                                 background: "#196633"
                             }}
                         >
@@ -131,9 +135,10 @@ class Game extends React.Component {
                         </div>
                         <div
                             style={{
-                                width: "100%",
-                                height: "80%",
-                                background: "#596633"
+                                height: sidePlayerHeight + "px",
+                                margin: "0 auto",
+                                background: "#596633",
+                                border: "1px black",
                             }}
                         >
                             <Player
@@ -144,9 +149,10 @@ class Game extends React.Component {
                 </div>
                 <div
                     style={{
-                        width: "100%",
+                        width: this.state.wWidth + "px",
                         height: yourAreaHeight + "px",
-                        background: "#269999"
+                        background: "#269999",
+                        border: "1px black",
                     }}
                 >
                     <Player
