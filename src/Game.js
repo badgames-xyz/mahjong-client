@@ -36,7 +36,7 @@ class Game extends React.Component {
     render() {
         const navBarHeight = 50; // px
         const otherAreaHeight = this.state.wHeight - navBarHeight;
-        const yourAreaHeight = otherAreaHeight * 0.25;
+        const yourAreaHeight = otherAreaHeight * 0.30;
 
         const sidePanelWidth = this.state.wWidth * 0.20; // px
         const sidePanelHeight = otherAreaHeight - yourAreaHeight; // px
@@ -106,6 +106,8 @@ class Game extends React.Component {
                         >
                             <Player
                                 position="top"
+                                wWidth={centerPanelWidth}
+                                wHeight={topPlayerHeight}
                             />
                         </div>
                         <div
@@ -144,6 +146,8 @@ class Game extends React.Component {
                         >
                             <Player
                                 position="right"
+                                wWidth={sidePanelWidth}
+                                wHeight={sidePlayerHeight}
                             />
                         </div>
                     </div> 
@@ -158,6 +162,8 @@ class Game extends React.Component {
                 >
                     <Player
                         position="center"
+                        wWidth={this.state.wWidth}
+                        wHeight={yourAreaHeight}
                     />
                 </div>
             </div>
