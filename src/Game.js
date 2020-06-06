@@ -125,7 +125,6 @@ class Game extends React.Component {
                             height: sidePanelHeight + "px",
                             float: "left",
                             background: "#a69999",
-                            border: "1px black",
                         }}
                     >
                         <div
@@ -141,7 +140,6 @@ class Game extends React.Component {
                                 height: sidePlayerHeight + "px",
                                 margin: "0 auto",
                                 background: "#596633",
-                                border: "1px black",
                             }}
                         >
                             <Player
@@ -157,7 +155,6 @@ class Game extends React.Component {
                         width: this.state.wWidth + "px",
                         height: yourAreaHeight + "px",
                         background: "#269999",
-                        border: "1px black",
                     }}
                 >
                     <Player

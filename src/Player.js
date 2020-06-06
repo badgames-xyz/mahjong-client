@@ -207,32 +207,37 @@ class Player extends React.Component {
         }
 
         if (this.state.position === "center") {
-            const handAreaWidth = width * 0.60;
-            let cardWidth = (handAreaWidth / 13) - (2 * borderWidth);
+            let cardWidth = (width / 15) - (2 * borderWidth);
             let cardHeight = 1.35 * cardWidth;
             let row = []
 
             for (let i = 0; i < this.state.hand.length; ++i) {
                 let source = getCard(this.state.hand[i].suit, this.state.hand[i].num)
                 row.push(
-                    <div
+                    <img
                         key={i}
                         style={{
-                            display: "inline-block",
+                            width: cardWidth + "px",
+                            height: cardHeight + "px",
+                            border: borderWidth + "px solid " + borderColour,
                         }}
-                    >
-                        {createCard(i, source, cardWidth, cardHeight)}
-                    </div>
+                        src={source}
+                        alt={"Hidden Piece"}
+                    />
                 );
             }
 
-            let topMargin = (height - cardHeight - (2 * borderWidth)) / 2 + 4
+            let topPadding = (height - cardHeight - (2 * borderWidth)) / 2 + 4
+            let leftPadding = (width - (row.length * (cardWidth + (2 * borderWidth)))) / 2;
 
             return <div
                 style={{
-                    display: "block",
-                    margin: "0 auto",
-                    marginTop: topMargin + "px",
+                    display: "inline-block",
+                    width: width + "px",
+                    height: height + "px",
+                    boxSizing: "border-box",
+                    paddingTop: topPadding + "px",
+                    paddingLeft: leftPadding + "px",
                 }}
             >
                 {row}
@@ -341,7 +346,6 @@ class Player extends React.Component {
 
     createCompleted(width, height) {
         if (this.state.position === "top") {
-            // let topPadding = 15;
             let cardWidth = Math.min((width - (37 * borderWidth)) / 19.5, 35)
             let cardHeight = cardWidth * 1.35
             if (cardHeight + (2 * borderWidth) > height) {
@@ -448,7 +452,60 @@ class Player extends React.Component {
                 </div>
             )
         } else if (this.state.position === "center") {
+            let cardHeight = (height / 5) - (2 * borderWidth);
+            let cardWidth = cardHeight / 1.35;
+            if (4 * (cardWidth + (2 * borderWidth)) > width) {
+                cardWidth = (width / 4) - (2 * borderWidth);
+                cardHeight = cardWidth * 1.35;
+            }
+            let spacing = (cardHeight + (2 * borderWidth)) / 5;
+            let rows = []
+            for (let j = 0; j < this.state.completed.length; ++j) {
+                let row = []
+                for (let i = 0; i < this.state.completed[j].length; ++i) {
+                    let suit = this.state.completed[j][i].suit;
+                    let num = this.state.completed[j][i].num;
+                    let source = getCard(suit, num)
+                    row.push(
+                        <img
+                            key={i}
+                            style={{
+                                width: cardWidth + "px",
+                                height: cardHeight + "px",
+                                border: borderWidth + "px solid " + borderColour,
+                            }}
+                            src={source}
+                            alt={"Hidden Piece"}
+                        />
+                    )
+                }
+                rows.push(row);
+            }
 
+            let leftPadding = Math.min((width - (4 * (cardWidth + (2 * borderWidth)))) / 2, 35);
+
+            return (
+                <div
+                    style={{
+                        width: width + "px",
+                        height: height + "px",
+                        display: "inline-block",
+                        verticalAlign: "top",
+                    }}
+                >
+                    {rows.map((x, i) => (
+                        <div
+                            key={i}
+                            style={{
+                                paddingTop: spacing + "px",
+                                paddingLeft: leftPadding + "px",
+                            }}
+                        >
+                            {x}
+                        </div>
+                    ))}
+                </div>
+            )
         }
     }
 
@@ -464,9 +521,7 @@ class Player extends React.Component {
             handHeight = height * 0.4;
             completedWidth = width;
             completedHeight = height - handHeight;
-        }
 
-        if (this.state.position === "top") {
             return (
                 <div
                     style={{
@@ -504,7 +559,27 @@ class Player extends React.Component {
                 </div>
             )
         } else if (this.state.position === "center") {
+            completedWidth = width * 0.2;
+            completedHeight = height;
+            handWidth = width * 0.6;
+            handHeight = height;
+            let actionWidth = width - completedWidth - handWidth;
+            let actionHeight = height;
 
+            return (
+                <div
+                    style={{
+                        width: width + "px",
+                        height: height + "px",
+                        // boxSizing: "border-box",
+                        display: "block",
+                    }}
+                >
+                    {this.createCompleted(completedWidth, completedHeight)}
+                    {this.createHand(handWidth, handHeight)}
+                    {/* {this.createActionArea(actionWidth, actionHeight)}  */}
+                </div>
+            )
         }
     }
 
