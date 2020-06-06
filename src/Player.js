@@ -306,28 +306,32 @@ class Player extends React.Component {
             let cardWidth = Math.min(((width - 20) / 13) - (2 * borderWidth), 40);
             let cardHeight = (3 / 4) * cardWidth;
             let row = []
-
+            let source = getHidden(this.state.position);
             for (let i = 0; i < this.state.handSize; ++i) {
                 row.push(
-                    <div
+                    <img
                         key={i}
                         style={{
-                            display: "inline-block",
+                            width: cardWidth + "px",
+                            height: cardHeight + "px",
+                            border: borderWidth + "px solid " + borderColour,
                         }}
-                    >
-                        {createCard(i, getHidden(this.state.position), cardWidth, cardHeight)}
-                    </div>
-                    
+                        src={source}
+                        alt={"Hidden Piece"}
+                    />
                 );
             }
 
-            let topMargin = (height / 2) - cardHeight - (2 * borderWidth) + 4
+            let topPadding = height - cardHeight - (2 * borderWidth);
+            let leftPadding = (width - (this.state.handSize * (cardWidth + (2 * borderWidth)))) / 2;
 
             return <div
                 style={{
-                    display: "block",
-                    margin: "0 auto",
-                    marginTop: topMargin + "px",
+                    width: width + "px",
+                    height: height + "px",
+                    boxSizing: "border-box",
+                    paddingTop: topPadding + "px",
+                    paddingLeft: leftPadding + "px",
                 }}
             >
                 {row}
@@ -337,7 +341,63 @@ class Player extends React.Component {
 
     createCompleted(width, height) {
         if (this.state.position === "top") {
+            // let topPadding = 15;
+            let cardWidth = Math.min((width - (37 * borderWidth)) / 19.5, 35)
+            let cardHeight = cardWidth * 1.35
+            if (cardHeight + (2 * borderWidth) > height) {
+                cardHeight = height - (2 * borderWidth)
+                cardWidth = cardHeight / 1.35;
+            }
 
+            let rows = []
+            for (let j = 0; j < this.state.completed.length; ++j) {
+                let row = []
+                for (let i = 0; i < this.state.completed[j].length; ++i) {
+                    let suit = this.state.completed[j][i].suit;
+                    let num = this.state.completed[j][i].num;
+                    let source = getCard(suit, num)
+                    row.push(
+                        <img
+                            key={i}
+                            style={{
+                                width: cardWidth + "px",
+                                height: cardHeight + "px",
+                                border: borderWidth + "px solid " + borderColour,
+                            }}
+                            src={source}
+                            alt={"Hidden Piece"}
+                        />
+                    )
+                }
+                rows.push(row);
+            }
+
+            let leftPadding = (cardWidth + (2 * borderWidth)) / 2;
+            let topPadding = height - (cardHeight + (2 * borderWidth));
+
+            return (
+                <div
+                    style={{
+                        width: width + "px",
+                        height: height + "px",
+                        display: "block",
+                        boxSizing: "border-box",
+                    }}
+                >
+                    {rows.map((x, i) => (
+                        <div
+                            key={i}
+                            style={{
+                                display: "inline-block",
+                                paddingLeft: leftPadding + "px",
+                                paddingTop: topPadding + "px",
+                            }}
+                        >
+                            {x}
+                        </div>
+                    ))}
+                </div>
+            )
         } else if (this.state.position === "left" || this.state.position === "right") {
             let cardWidth = (width / 5) - (2 * borderWidth);
             let cardHeight = 1.35 * cardWidth;
@@ -374,8 +434,9 @@ class Player extends React.Component {
                         display: "inline-block",
                     }}
                 >
-                    {rows.map(x => (
+                    {rows.map((x, i) => (
                         <div
+                            key={i}
                             style={{
                                 paddingTop: "15px",
                                 paddingLeft: leftPadding + "px",
@@ -395,23 +456,28 @@ class Player extends React.Component {
         let handWidth = Math.round(width * 0.4); // px
         let handHeight = height; // px
 
-        if (this.state.position === "top") {
-            handWidth = width;
-        }
-
         let completedWidth = width - handWidth; // px
         let completedHeight = handHeight; // px
 
-        console.log(this.state.position)
-        console.log(width);
-        console.log(height);
-        console.log(handWidth);
-        console.log(handHeight);
-        console.log(completedWidth);
-        console.log(completedHeight);
+        if (this.state.position === "top") {
+            handWidth = width;
+            handHeight = height * 0.4;
+            completedWidth = width;
+            completedHeight = height - handHeight;
+        }
 
         if (this.state.position === "top") {
-
+            return (
+                <div
+                    style={{
+                        width: width + "px",
+                        height: height + "px",
+                    }}
+                >
+                    {this.createHand(handWidth, handHeight)}
+                    {this.createCompleted(completedWidth, completedHeight)}
+                </div>
+            )
         } else if (this.state.position === "left") {
             return (
                 <div
