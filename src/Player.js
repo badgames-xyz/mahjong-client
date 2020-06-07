@@ -2,6 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
 import { getIcon, getCard, getHidden } from './Pictures'
+import { Button } from '@material-ui/core';
 
 const borderWidth = 2;
 const borderColour = "#264653";
@@ -47,7 +48,7 @@ class Player extends React.Component {
                         suit: "stick",
                         num: 7,
                     }
-                ]
+                ],
             ], // should come from props
             score: 0, // should come from props
 
@@ -110,6 +111,27 @@ class Player extends React.Component {
                     num: 7,
                 },
             ];
+            this.state.eatOptions = [
+                [
+                    {
+                        suit: "char",
+                        num: 3,
+                    },
+                    {
+                        suit: "char",
+                        num: 3,
+                    },
+                    {
+                        suit: "char",
+                        num: 3,
+                    },
+                    {
+                        suit: "char",
+                        num: 3,
+                    }
+                ],
+                
+            ]
         } else {
             this.state.handSize = 13 // should come from this.props.handSize;
         }
@@ -175,7 +197,7 @@ class Player extends React.Component {
                 style={{
                     display: "block",
                     textAlign: "center",
-                    border: "2px solid black",
+                    // border: "2px solid black",
                     height: height + "px",
                 }}
             >
@@ -452,13 +474,13 @@ class Player extends React.Component {
                 </div>
             )
         } else if (this.state.position === "center") {
-            let cardHeight = (height / 5) - (2 * borderWidth);
-            let cardWidth = cardHeight / 1.35;
+            let cardWidth = (width / 5) - (2 * borderWidth);
+            let cardHeight = cardWidth * 1.35;
             if (4 * (cardWidth + (2 * borderWidth)) > width) {
                 cardWidth = (width / 4) - (2 * borderWidth);
                 cardHeight = cardWidth * 1.35;
             }
-            let spacing = (cardHeight + (2 * borderWidth)) / 5;
+            let spacing = (cardWidth + (2 * borderWidth)) / 5;
             let rows = []
             for (let j = 0; j < this.state.completed.length; ++j) {
                 let row = []
@@ -482,7 +504,76 @@ class Player extends React.Component {
                 rows.push(row);
             }
 
-            let leftPadding = Math.min((width - (4 * (cardWidth + (2 * borderWidth)))) / 2, 35);
+            return (
+                <div
+                    style={{
+                        width: width + "px",
+                        height: height + "px",
+                        display: "inline-block",
+                        verticalAlign: "top",
+                        overflow: "scroll",
+                    }}
+                >
+                    {rows.map((x, i) => (
+                        <div
+                            key={i}
+                            style={{
+                                paddingLeft: spacing + "px",
+                            }}
+                        >
+                            {x}
+                        </div>
+                    ))}
+                </div>
+            )
+        }
+    }
+
+    createActionArea(width, height) {
+        if (this.state.eatOptions && this.state.eatOptions.length) {
+            let takeButtonWidth = 65;
+            let takeButtonHeight = 35;
+
+            let cardWidth = ((width - takeButtonWidth) / 4) - (2 * borderWidth);
+            let cardHeight = cardWidth * 1.35;
+
+            let rows = []
+            for (let j = 0; j < this.state.eatOptions.length; ++j) {
+                let row = []
+                for (let i = 0; i < this.state.eatOptions[j].length; ++i) {
+                    let suit = this.state.eatOptions[j][i].suit;
+                    let num = this.state.eatOptions[j][i].num;
+                    let source = getCard(suit, num)
+                    row.push(
+                        <img
+                            key={i}
+                            style={{
+                                width: cardWidth + "px",
+                                height: cardHeight + "px",
+                                border: borderWidth + "px solid " + borderColour,
+                            }}
+                            src={source}
+                            alt={"Hidden Piece"}
+                        />
+                    )
+                }
+                rows.push(row);
+            }
+
+            let passButtonStyle = {
+                width: width + "px",
+                background: "#E9C46A",
+            }
+
+            let takeButtonStyle = {
+                float: "left",
+                alignItems: "center",
+                width: takeButtonWidth + "px",
+                height: takeButtonHeight + "px",
+                background: "#E9C46A",
+            }
+
+            let buttonTopPadding = (((cardHeight - takeButtonHeight) / 2) + borderWidth);
 
             return (
                 <div
@@ -491,19 +582,57 @@ class Player extends React.Component {
                         height: height + "px",
                         display: "inline-block",
                         verticalAlign: "top",
+                        overflow: "scroll",
                     }}
                 >
+                    <Button
+                        style={passButtonStyle}
+                    >
+                        Pass
+                    </Button>
                     {rows.map((x, i) => (
                         <div
                             key={i}
                             style={{
-                                paddingTop: spacing + "px",
-                                paddingLeft: leftPadding + "px",
+                                display: "flex",
+                                marginTop: "5px",
                             }}
                         >
-                            {x}
+                            <div
+                                style={{
+                                    paddingTop: buttonTopPadding + "px",
+                                }}
+                            >
+                                <Button
+                                    style={takeButtonStyle}
+                                >
+                                    Take
+                                </Button>
+                            </div>
+                            <div
+                                style={{
+                                    float: "left",
+                                }}
+                            >
+                                {x}
+                            </div>
                         </div>
                     ))}
+                </div>
+            )
+        } else { // may be more cases than 2
+            return (
+                <div
+                    style={{
+                        width: width + "px",
+                        height: height + "px",
+                        verticalAlign: "top",
+                        display: "inline-block",
+                    }}
+                >
+                    <Typography>
+                        No actions right now.
+                    </Typography>
                 </div>
             )
         }
@@ -561,8 +690,10 @@ class Player extends React.Component {
         } else if (this.state.position === "center") {
             completedWidth = width * 0.2;
             completedHeight = height;
-            handWidth = width * 0.6;
-            handHeight = height;
+            let nameWidth = width * 0.6;
+            let nameHeight = 35;
+            handWidth = nameWidth;
+            handHeight = height - nameHeight;
             let actionWidth = width - completedWidth - handWidth;
             let actionHeight = height;
 
@@ -576,8 +707,18 @@ class Player extends React.Component {
                     }}
                 >
                     {this.createCompleted(completedWidth, completedHeight)}
-                    {this.createHand(handWidth, handHeight)}
-                    {/* {this.createActionArea(actionWidth, actionHeight)}  */}
+                    <div
+                        style={{
+                            display: "inline-block",
+                            // width: handWidth + "px",
+                            // height: (nameHeight + handHeight) + "px",
+                        }}
+                    >
+                        {this.createHand(handWidth, handHeight)}
+                        {this.createNameTag(nameHeight)}
+                    </div>
+                    
+                    {this.createActionArea(actionWidth, actionHeight)} 
                 </div>
             )
         }
@@ -598,15 +739,23 @@ class Player extends React.Component {
         const cardAreaWidth = this.state.wWidth;
         const cardAreaHeight = this.state.wHeight - nameHeight;
 
+        if (this.state.position === "center") {
+            return (
+                <div>
+                    {this.createCardArea(this.state.wWidth, this.state.wHeight)}
+                    {/* {this.createNameTag(nameHeight)} */}
+                </div>
+            )
+        }
         return (
             <div>
-                <div
+                {/* <div
                     style={{
-                        height: nameHeight + "px",
+                        // height: nameHeight + "px",
                     }}
-                >
+                > */}
                     {this.createNameTag(nameHeight)}
-                </div>
+                {/* </div> */}
                 {this.createCardArea(cardAreaWidth, cardAreaHeight)}
             </div>
         )
