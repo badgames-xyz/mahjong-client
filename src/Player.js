@@ -197,7 +197,6 @@ class Player extends React.Component {
                 style={{
                     display: "block",
                     textAlign: "center",
-                    // border: "2px solid black",
                     height: height + "px",
                 }}
             >
@@ -300,17 +299,14 @@ class Player extends React.Component {
             return <div
                 style={{
                     float: this.state.position,
-                    // position: "relative",
                     height: height + "px",
                     width: width + "px",
-                    // border: "2px solid black"
                     display: "inline-block",
                 }}
             >
                 <div
                     style={{
                         float: this.state.position,
-                        // verticalAlign: "center",
                         paddingLeft: leftPadding + "px",
                         paddingRight: rightPadding + "px",
                         marginTop: firstTopMargin + "px",
@@ -702,7 +698,6 @@ class Player extends React.Component {
                     style={{
                         width: width + "px",
                         height: height + "px",
-                        // boxSizing: "border-box",
                         display: "block",
                     }}
                 >
@@ -710,8 +705,6 @@ class Player extends React.Component {
                     <div
                         style={{
                             display: "inline-block",
-                            // width: handWidth + "px",
-                            // height: (nameHeight + handHeight) + "px",
                         }}
                     >
                         {this.createHand(handWidth, handHeight)}
@@ -743,19 +736,12 @@ class Player extends React.Component {
             return (
                 <div>
                     {this.createCardArea(this.state.wWidth, this.state.wHeight)}
-                    {/* {this.createNameTag(nameHeight)} */}
                 </div>
             )
         }
         return (
             <div>
-                {/* <div
-                    style={{
-                        // height: nameHeight + "px",
-                    }}
-                > */}
-                    {this.createNameTag(nameHeight)}
-                {/* </div> */}
+                {this.createNameTag(nameHeight)}
                 {this.createCardArea(cardAreaWidth, cardAreaHeight)}
             </div>
         )
