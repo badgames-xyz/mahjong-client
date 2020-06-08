@@ -507,7 +507,7 @@ class Player extends React.Component {
                         height: height + "px",
                         display: "inline-block",
                         verticalAlign: "top",
-                        overflow: "scroll",
+                        overflowY: "auto",
                     }}
                 >
                     {rows.map((x, i) => (
@@ -578,7 +578,7 @@ class Player extends React.Component {
                         height: height + "px",
                         display: "inline-block",
                         verticalAlign: "top",
-                        overflow: "scroll",
+                        overflowY: "auto",
                     }}
                 >
                     <Button
