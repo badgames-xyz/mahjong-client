@@ -2,10 +2,11 @@ import React from 'react';
 import { Typography } from '@material-ui/core';
 import { getCard, getHidden } from './Pictures'
 
-let maxTilesPerRow = 15
+let maxTilesPerRow = 18
 let widthHeightRatio = 1.35
-let cardsRemainingRatio = 13
 let lastDiscardRatio = 4
+let bannerHeight = 50
+let scrollBarOffset = 15
 
 class Discard extends React.Component {
     constructor(props) {
@@ -13,14 +14,25 @@ class Discard extends React.Component {
 
         this.state = {
             discard: this.props.discard,
-            drawpile: this.props.drawpile
+            drawpile: this.props.drawpile,
+            wWidth: this.props.wWidth - scrollBarOffset,
+            wHeight: this.props.wHeight
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.wWidth !== this.props.wWidth) {
+            this.setState({ wWidth: this.props.wWidth - scrollBarOffset })
+        }
+        if (prevProps.wHeight !== this.props.wHeight) {
+            this.setState({ wHeight: this.props.wHeight })
         }
     }
 
     renderTile(width, height, index){
         return(
             <img
-                style={{width: width, height: height, display: "inline-block", verticalAlign: "middle", paddingLeft: "5px"}}
+                style={{width: width-5 + "px", height: height-(5*widthHeightRatio) + "px", display: "inline-block", verticalAlign: "middle", paddingTop: "5px", paddingLeft: "5px"}}
                 src={getCard(this.state.discard[index].suit, this.state.discard[index].num)}
                 alt={"Loading"}
                 key={index}
@@ -29,10 +41,11 @@ class Discard extends React.Component {
     }
 
     renderTileRow(startIndex, tilesPerRow){
+        console.log(this.state.wWidth)
         let row = []
-        for (let i = startIndex; i < startIndex + tilesPerRow; i++){
-            row.push(this.renderTile((this.props.wWidth - this.props.wWidth/lastDiscardRatio - 5*(maxTilesPerRow + 2))/maxTilesPerRow + "px", + 
-                ((this.props.wWidth - this.props.wWidth/lastDiscardRatio - 5*(maxTilesPerRow + 2))/maxTilesPerRow)*widthHeightRatio + "px", i))
+        for (let i = startIndex; i < Math.min(startIndex + tilesPerRow, this.state.discard.length); i++){
+            row.push(this.renderTile((this.state.wWidth - this.state.wWidth/lastDiscardRatio)/maxTilesPerRow,
+                ((this.state.wWidth - this.state.wWidth/lastDiscardRatio)/maxTilesPerRow)*widthHeightRatio, i))
         }
         return(
             <div>
@@ -44,24 +57,24 @@ class Discard extends React.Component {
     render(){
         let rows = []
         for (let i = 0; i < Math.ceil(this.state.discard.length/maxTilesPerRow); i++){
-            rows.push(<div style={{paddingBottom: "5px"}} key={i}>{this.renderTileRow(i * maxTilesPerRow, maxTilesPerRow)}</div>)
+            rows.push(<div key={i}>{this.renderTileRow(i * maxTilesPerRow, maxTilesPerRow)}</div>)
         }
         return(
-            <React.Fragment>
-                <div style={{textAlign: "center"}}>
+            <div>
+                <div style={{textAlign: "center", height: bannerHeight + "px"}}>
                     <img
-                        style={{width: this.props.wHeight/cardsRemainingRatio/widthHeightRatio + "px", height: this.props.wHeight/cardsRemainingRatio + "px", display: "inline-block", verticalAlign: "middle"}}
+                        style={{width: bannerHeight/widthHeightRatio + "px", height: bannerHeight + "px", display: "inline-block", verticalAlign: "middle"}}
                         src={getHidden("back")}
                         alt={"Loading"}
                     />
                     <Typography
-                        style={{paddingLeft: "5px", color: "white", fontSize: this.props.wHeight/cardsRemainingRatio + "px", verticalAlign: "middle", display: "inline-block"}}
+                        style={{paddingLeft: "5px", color: "white", fontSize: "xx-large", verticalAlign: "middle", display: "inline-block"}}
                     >
                         {this.props.drawpile + " cards remaining"}
                     </Typography>
                 </div>
                 <div style={{display: "inline-block"}}>
-                    {this.renderTile(this.props.wWidth/lastDiscardRatio + "px", this.props.wWidth/lastDiscardRatio * widthHeightRatio + "px", 0)}
+                    {this.renderTile((this.state.wWidth - bannerHeight)/lastDiscardRatio, this.state.wWidth/lastDiscardRatio * widthHeightRatio, 0)}
                     <Typography
                         style={{color: "white", paddingLeft: "5px", fontSize: "100%", textAlign: "center"}}
                     >
@@ -71,7 +84,7 @@ class Discard extends React.Component {
                 <div style={{display: "inline-block", verticalAlign: "top"}}>
                     {rows}
                 </div>
-        </React.Fragment>
+        </div>
         )
     }
 
