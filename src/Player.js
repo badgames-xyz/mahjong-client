@@ -2,7 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
 import { getIcon, getCard, getHidden } from './Pictures'
-import { Button } from '@material-ui/core';
+import { Button, CardActionArea } from '@material-ui/core';
 
 const borderWidth = 2;
 const borderColour = "#264653";
@@ -16,6 +16,7 @@ class Player extends React.Component {
             name: "Test Name", // should come from props
             iconIndex: 1, // should come from props
             direction: { suit: "special", num: 1 }, // should come from props
+            isTurn: true, // should come from props
             completed: [
                 [
                     {
@@ -51,6 +52,9 @@ class Player extends React.Component {
                 ],
             ], // should come from props
             score: 0, // should come from props
+
+            anySelected: false,
+            selectedIndex: -1,
 
             wWidth: this.props.wWidth,
             wHeight: this.props.wHeight,
@@ -111,29 +115,47 @@ class Player extends React.Component {
                     num: 7,
                 },
             ];
-            this.state.eatOptions = [
-                [
-                    {
-                        suit: "char",
-                        num: 3,
-                    },
-                    {
-                        suit: "char",
-                        num: 3,
-                    },
-                    {
-                        suit: "char",
-                        num: 3,
-                    },
-                    {
-                        suit: "char",
-                        num: 3,
-                    }
-                ],
-                
+            this.state.actions = [
+                {
+                    type: "kong",
+                    cards: [
+                        {
+                            suit: "char",
+                            num: 3,
+                        },
+                        {
+                            suit: "char",
+                            num: 3,
+                        },
+                        {
+                            suit: "char",
+                            num: 3,
+                        },
+                        {
+                            suit: "char",
+                            num: 3,
+                        }
+                    ]
+                }
             ]
         } else {
             this.state.handSize = 13 // should come from this.props.handSize;
+        }
+    }
+
+    selectCard(index) {
+        if (this.state.isTurn) {
+            if (this.state.anySelected && this.state.selectedIndex === index) {
+                this.setState((prevState) => ({
+                    anySelected: !prevState.anySelected,
+                    selectedIndex: -1,
+                }), () => console.log(this.state.anySelected));
+            } else { // another card may or may not be selected
+                this.setState({
+                    anySelected: true,
+                    selectedIndex: index,
+                }, () => console.log(this.state.anySelected))
+            }
         }
     }
 
@@ -234,35 +256,81 @@ class Player extends React.Component {
 
             for (let i = 0; i < this.state.hand.length; ++i) {
                 let source = getCard(this.state.hand[i].suit, this.state.hand[i].num)
+                let actionAreaWidth = cardWidth + (2 * borderWidth);
+                let actionAreaHeight = cardHeight + (2 * borderWidth);
+                let colour = this.state.selectedIndex === i ? "#E9C46A" : borderColour;
                 row.push(
-                    <img
+                    <CardActionArea
                         key={i}
                         style={{
-                            width: cardWidth + "px",
-                            height: cardHeight + "px",
-                            border: borderWidth + "px solid " + borderColour,
+                            display: "inline-block",
+                            width: actionAreaWidth + "px",
+                            height: actionAreaHeight + "px",
                         }}
-                        src={source}
-                        alt={"Hidden Piece"}
-                    />
+                        onClick={() => this.selectCard(i)}
+                    >
+                        <img
+                            style={{
+                                width: cardWidth + "px",
+                                height: cardHeight + "px",
+                                border: borderWidth + "px solid " + colour,
+                            }}
+                            src={source}
+                            alt={"Hidden Piece"}
+                        />
+                    </CardActionArea>
                 );
             }
 
-            let topPadding = (height - cardHeight - (2 * borderWidth)) / 2 + 4
-            let leftPadding = (width - (row.length * (cardWidth + (2 * borderWidth)))) / 2;
+            if (this.state.isTurn && this.state.anySelected) {
+                let tcw = cardWidth + (2 * borderWidth); // total card width
+                let buttonHeight = 35;
+                let buttonWidth = 75;
+                let buttonPadding = ((tcw / 2) - (buttonWidth / 2)) + (this.state.selectedIndex * tcw);
+                let topPadding = (height - cardHeight - (2 * borderWidth)) / 2 + 4 - buttonHeight;
+                let leftPadding = (width - (row.length * (cardWidth + (2 * borderWidth)))) / 2;
 
-            return <div
-                style={{
-                    display: "inline-block",
-                    width: width + "px",
-                    height: height + "px",
-                    boxSizing: "border-box",
-                    paddingTop: topPadding + "px",
-                    paddingLeft: leftPadding + "px",
-                }}
-            >
-                {row}
-            </div>
+                return <div
+                    style={{
+                        display: "inline-block",
+                        width: width + "px",
+                        height: height + "px",
+                        boxSizing: "border-box",
+                        paddingTop: topPadding + "px",
+                        paddingLeft: leftPadding + "px",
+                    }}
+                >
+                    <div>
+                        <Button
+                            style={{
+                                height: buttonHeight + "px",
+                                width: buttonWidth + "px",
+                                marginLeft: buttonPadding + "px",
+                                background: "#E9C46A",
+                            }}
+                        >
+                            Discard
+                        </Button>
+                    </div>
+                    {row}
+                </div>
+            } else {
+                let topPadding = (height - cardHeight - (2 * borderWidth)) / 2 + 4
+                let leftPadding = (width - (row.length * (cardWidth + (2 * borderWidth)))) / 2;
+
+                return <div
+                    style={{
+                        display: "inline-block",
+                        width: width + "px",
+                        height: height + "px",
+                        boxSizing: "border-box",
+                        paddingTop: topPadding + "px",
+                        paddingLeft: leftPadding + "px",
+                    }}
+                >
+                    {row}
+                </div>
+            }
         } else if (this.state.position === "left" || this.state.position === "right") {
             let cardWidth = 30;
             let cardHeight = 40;
@@ -526,7 +594,34 @@ class Player extends React.Component {
     }
 
     createActionArea(width, height) {
-        if (this.state.eatOptions && this.state.eatOptions.length) {
+        if (this.state.isTurn) {
+            let winButtonStyle = {
+                width: width + "px",
+                background: "#E9C46A",
+                marginBottom: "10px",
+            }
+
+            return (
+                <div
+                    style={{
+                        width: width + "px",
+                        height: height + "px",
+                        display: "inline-block",
+                        verticalAlign: "top",
+                        textAlign: "center",
+                    }}
+                >
+                    <Button
+                        style={winButtonStyle}
+                    >
+                        declare win
+                    </Button>
+                    <Typography>
+                        Or click to discard a card.
+                    </Typography>
+                </div>
+            )
+        } else if (this.state.actions && this.state.actions.length) {
             let takeButtonWidth = 65;
             let takeButtonHeight = 35;
 
@@ -534,11 +629,11 @@ class Player extends React.Component {
             let cardHeight = cardWidth * 1.35;
 
             let rows = []
-            for (let j = 0; j < this.state.eatOptions.length; ++j) {
+            for (let j = 0; j < this.state.actions.length; ++j) {
                 let row = []
-                for (let i = 0; i < this.state.eatOptions[j].length; ++i) {
-                    let suit = this.state.eatOptions[j][i].suit;
-                    let num = this.state.eatOptions[j][i].num;
+                for (let i = 0; i < this.state.actions[j].cards.length; ++i) {
+                    let suit = this.state.actions[j].cards[i].suit;
+                    let num = this.state.actions[j].cards[i].num;
                     let source = getCard(suit, num)
                     row.push(
                         <img
@@ -602,7 +697,7 @@ class Player extends React.Component {
                                 <Button
                                     style={takeButtonStyle}
                                 >
-                                    Take
+                                    {this.state.actions[i].type}
                                 </Button>
                             </div>
                             <div
