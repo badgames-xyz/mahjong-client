@@ -4,6 +4,8 @@ import NavBar from './NavBar'
 import Player from './Player'
 import Discard from './Discard'
 
+const backgroundColour = "#2A9D8F";
+
 class Game extends React.Component {
     constructor(props) {
         super(props);
@@ -48,7 +50,11 @@ class Game extends React.Component {
         const topPlayerHeight = otherAreaHeight * 0.20; // px
 
         return (
-            <div>
+            <div
+                style={{
+                    backgroundColor: backgroundColour
+                }}
+            >
                 <NavBar
                     onClickLogo={() => {}}
                 />
@@ -56,7 +62,6 @@ class Game extends React.Component {
                     style={{
                         width: this.state.wWidth + "px",
                         height: (otherAreaHeight - yourAreaHeight) + "px",
-                        background: "gray",
                         display: "flex",
                     }}
                 >
@@ -65,13 +70,11 @@ class Game extends React.Component {
                             width: sidePanelWidth + "px",
                             height: sidePanelHeight + "px",
                             float: "left",
-                            background: "#669999"
                         }}
                     >
                         <div
                             style={{
                                 height: (sidePanelHeight - sidePlayerHeight) + "px",
-                                background: "#996633"
                             }}
                         >
 
@@ -79,7 +82,6 @@ class Game extends React.Component {
                         <div
                             style={{
                                 height: sidePlayerHeight + "px",
-                                background: "#d96633"
                             }}
                         >
                             <Player
@@ -94,13 +96,11 @@ class Game extends React.Component {
                             width: centerPanelWidth + "px",
                             height: centerPanelHeight + "px",
                             float: "left",
-                            background: "#869999"
                         }}
                     >
                         <div
                             style={{
                                 height: topPlayerHeight + "px",
-                                background: "#660066",
                                 margin: "0 auto"
                             }}
                         >
@@ -113,7 +113,6 @@ class Game extends React.Component {
                         <div
                             style={{
                                 height: (centerPanelHeight - topPlayerHeight) + "px",
-                                background: "#260066",
                                 overflow: "auto"
                             }}
                         >
@@ -125,13 +124,11 @@ class Game extends React.Component {
                             width: sidePanelWidth + "px",
                             height: sidePanelHeight + "px",
                             float: "left",
-                            background: "#a69999",
                         }}
                     >
                         <div
                             style={{
                                 height: (sidePanelHeight - sidePlayerHeight) + "px",
-                                background: "#196633"
                             }}
                         >
 
@@ -140,7 +137,6 @@ class Game extends React.Component {
                             style={{
                                 height: sidePlayerHeight + "px",
                                 margin: "0 auto",
-                                background: "#596633",
                             }}
                         >
                             <Player
@@ -155,7 +151,6 @@ class Game extends React.Component {
                     style={{
                         width: this.state.wWidth + "px",
                         height: yourAreaHeight + "px",
-                        background: "#269999",
                     }}
                 >
                     <Player
