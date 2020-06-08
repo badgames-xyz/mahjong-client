@@ -3,6 +3,7 @@ import React from 'react';
 import NavBar from './NavBar'
 import Player from './Player'
 import Discard from './Discard'
+import GameDisplay from './GameDisplay';
 
 const backgroundColour = "#2A9D8F";
 
@@ -101,7 +102,7 @@ class Game extends React.Component {
                         <div
                             style={{
                                 height: topPlayerHeight + "px",
-                                margin: "0 auto"
+                                margin: "0 auto",
                             }}
                         >
                             <Player
@@ -131,7 +132,11 @@ class Game extends React.Component {
                                 height: (sidePanelHeight - sidePlayerHeight) + "px",
                             }}
                         >
-
+                            <GameDisplay
+                                turnType="normal"
+                                wWidth={sidePanelWidth}
+                                wHeight={sidePanelHeight - sidePlayerHeight}
+                            />
                         </div>
                         <div
                             style={{
