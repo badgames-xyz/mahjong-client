@@ -188,7 +188,7 @@ class Game extends React.Component {
                 >
                     <Player
                         position="center"
-                        playerData={this.state.currentPlayer}
+                        playerData={this.state.playerCurrent}
                         isTurn={turnCurrent}
                         wWidth={this.state.wWidth}
                         wHeight={yourAreaHeight}
