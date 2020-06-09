@@ -59,6 +59,17 @@ class Discard extends React.Component {
         for (let i = 0; i < Math.ceil(this.state.discard.length/maxTilesPerRow); i++){
             rows.push(<div key={i}>{this.renderTileRow(i * maxTilesPerRow, maxTilesPerRow)}</div>)
         }
+        let lastDiscard = "";
+        if (this.state.discard.length > 0) {
+            lastDiscard = <div style={{display: "inline-block"}}>
+                {this.renderTile((this.state.wWidth - bannerHeight)/lastDiscardRatio, this.state.wWidth/lastDiscardRatio * widthHeightRatio, 0)}
+                <Typography
+                    style={{color: "white", paddingLeft: "5px", fontSize: "100%", textAlign: "center"}}
+                >
+                    Last Discarded
+                </Typography>
+            </div>
+        }
         return(
             <div>
                 <div style={{textAlign: "center", height: bannerHeight + "px"}}>
@@ -73,14 +84,7 @@ class Discard extends React.Component {
                         {this.props.drawpile + " cards remaining"}
                     </Typography>
                 </div>
-                <div style={{display: "inline-block"}}>
-                    {this.renderTile((this.state.wWidth - bannerHeight)/lastDiscardRatio, this.state.wWidth/lastDiscardRatio * widthHeightRatio, 0)}
-                    <Typography
-                        style={{color: "white", paddingLeft: "5px", fontSize: "100%", textAlign: "center"}}
-                    >
-                        Last Discarded
-                    </Typography>
-                </div>
+                {lastDiscard}
                 <div style={{display: "inline-block", verticalAlign: "top"}}>
                     {rows}
                 </div>
