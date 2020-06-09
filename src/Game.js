@@ -145,8 +145,8 @@ class Game extends React.Component {
                             <Discard
                                 wWidth={centerPanelWidth}
                                 wHeight={centerPanelHeight - topPlayerHeight}
-                                discard={this.gameData.discardPile}
-                                drawpile={this.gameData.drawPile}
+                                discard={this.state.gameData.discardPile}
+                                drawpile={this.state.gameData.drawPile}
                             />
                         </div>
                     </div>
