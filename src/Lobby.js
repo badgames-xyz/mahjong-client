@@ -96,7 +96,7 @@ class Lobby extends React.Component {
     render() {
         if (this.state.lobbyData) {
             let addBot = "";
-            if (this.state.lobbyData.players.length < 4) {
+            if (this.state.lobbyData.players.length < 3) {
                 addBot = <LobbyEmptyPlayer
                     wWidth={this.state.wWidth}
                     wHeight={this.state.wHeight}
