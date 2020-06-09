@@ -116,17 +116,25 @@ class Lobby extends React.Component {
                     <LobbyLink
                         link={linkPrefix + this.state.lobbyData.roomCode}
                     />
-                    {this.state.lobbyData.players.map(x => (
+                    <LobbyPlayer
+                        name={this.state.lobbyData.currentPlayer.name}
+                        iconIndex={this.state.lobbyData.currentPlayer.iconIndex}
+                        canEdit={true}
+                        ready={this.state.lobbyData.currentPlayer.ready}
+                        isHost={this.state.lobbyData.currentPlayer.isHost}
+                        onChangeName={(name) => this.onChangeName(name)}
+                        onChangeIcon={(index) => this.onChangeIcon(index)}
+                        wWidth={this.state.wWidth}
+                        wHeight={this.state.wHeight}
+                    />
+                    {this.state.lobbyData.players.map((x, i) => (
                         <LobbyPlayer
-                            key={x.id}
-                            id={x.id}
+                            key={i}
                             name={x.name}
                             iconIndex={x.iconIndex}
-                            canEdit={x.id === this.state.lobbyData.currentPlayer.id}
+                            canEdit={false}
                             ready={x.ready}
                             isHost={x.isHost}
-                            onChangeName={(name) => this.onChangeName(name)}
-                            onChangeIcon={(index) => this.onChangeIcon(index)}
                             wWidth={this.state.wWidth}
                             wHeight={this.state.wHeight}
                         />

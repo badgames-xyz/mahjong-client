@@ -36,7 +36,6 @@ class LobbyPlayer extends React.Component {
         super(props);
 
         this.state = {
-            id: this.props.id,
             canEdit: this.props.canEdit,
             iconIndex: this.props.iconIndex,
             name: this.props.name,
