@@ -16,7 +16,7 @@ class Game extends React.Component {
             playerRight: this.props.gameData.players[0],
             playerTop: this.props.gameData.players[1],
             playerLeft: this.props.gameData.players[2],
-            currentPlayer: this.props.gameData.currentPlayer,
+            playerCurrent: this.props.gameData.currentPlayer,
 
             ws: this.props.ws,
 
@@ -64,6 +64,7 @@ class Game extends React.Component {
 
         const topPlayerHeight = otherAreaHeight * 0.20; // px
 
+        console.log(this.state.gameData);
         let d = this.state.gameData.direction.num;
         let turnLeft = d === this.state.playerLeft.direction.num;
         let turnRight = d === this.state.playerRight.direction.num;
