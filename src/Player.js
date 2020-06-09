@@ -12,46 +12,14 @@ class Player extends React.Component {
         super(props);
 
         this.state = {
-            position: this.props.position, // center, left, right, top
-            name: "Test Name", // should come from props
-            iconIndex: 1, // should come from props
-            direction: { suit: "special", num: 1 }, // should come from props
-            isTurn: true, // should come from props
-            completed: [
-                [
-                    {
-                        suit: "char",
-                        num: 3,
-                    },
-                    {
-                        suit: "char",
-                        num: 3,
-                    },
-                    {
-                        suit: "char",
-                        num: 3,
-                    },
-                    {
-                        suit: "char",
-                        num: 3,
-                    }
-                ],
-                [
-                    {
-                        suit: "stick",
-                        num: 5,
-                    },
-                    {
-                        suit: "stick",
-                        num: 6,
-                    },
-                    {
-                        suit: "stick",
-                        num: 7,
-                    }
-                ],
-            ], // should come from props
-            score: 0, // should come from props
+            position: this.props.position,
+            isTurn: this.props.isTurn,
+            playerData: this.props.playerData,
+            name: this.props.playerData.name,
+            iconIndex: this.props.playerData.iconIndex,
+            direction: this.props.playerData.direction,
+            completed: this.props.playerData.completed,
+            score: this.props.playerData.score,
 
             anySelected: false,
             selectedIndex: -1,
@@ -61,85 +29,10 @@ class Player extends React.Component {
         }
 
         if (this.state.position === "center") {
-            this.state.hand = [
-                {
-                    suit: "circle",
-                    num: 7,
-                },
-                {
-                    suit: "stick",
-                    num: 5,
-                },
-                {
-                    suit: "char",
-                    num: 3,
-                },
-                {
-                    suit: "char",
-                    num: 2,
-                },
-                {
-                    suit: "char",
-                    num: 1,
-                },
-                {
-                    suit: "char",
-                    num: 9,
-                },
-                {
-                    suit: "stick",
-                    num: 5,
-                },
-                {
-                    suit: "special",
-                    num: 7,
-                },
-                {
-                    suit: "stick",
-                    num: 8,
-                },
-                {
-                    suit: "stick",
-                    num: 2,
-                },
-                {
-                    suit: "special",
-                    num: 2,
-                },
-                {
-                    suit: "circle",
-                    num: 4,
-                },
-                {
-                    suit: "special",
-                    num: 7,
-                },
-            ];
-            this.state.actions = [
-                {
-                    type: "kong",
-                    cards: [
-                        {
-                            suit: "char",
-                            num: 3,
-                        },
-                        {
-                            suit: "char",
-                            num: 3,
-                        },
-                        {
-                            suit: "char",
-                            num: 3,
-                        },
-                        {
-                            suit: "char",
-                            num: 3,
-                        }
-                    ]
-                }
-            ]
+            this.state.hand = this.props.playerData.hand;
+            this.state.actions = this.props.playerData.actions;
         } else {
-            this.state.handSize = 13 // should come from this.props.handSize;
+            this.state.handSize = this.props.playerData.handSize;
         }
     }
 
@@ -214,12 +107,17 @@ class Player extends React.Component {
     }
 
     createNameTag(height) {
+        let border = "";
+        if (this.state.isTurn) {
+            border = "1px solid gold";
+        }
         return (
             <div
                 style={{
                     display: "block",
                     textAlign: "center",
                     height: height + "px",
+                    border: border,
                 }}
             >
                 {this.createDirection()}
@@ -308,6 +206,7 @@ class Player extends React.Component {
                                 marginLeft: buttonPadding + "px",
                                 background: "#E9C46A",
                             }}
+                            onClick={() => this.props.onDiscard(this.state.selectedIndex)}
                         >
                             Discard
                         </Button>
@@ -678,6 +577,7 @@ class Player extends React.Component {
                 >
                     <Button
                         style={passButtonStyle}
+                        onClick={() => this.props.onPass()}
                     >
                         Pass
                     </Button>

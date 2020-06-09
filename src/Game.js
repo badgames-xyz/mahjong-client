@@ -13,6 +13,10 @@ class Game extends React.Component {
 
         this.state = {
             gameData: this.props.gameData,
+            playerRight: this.props.gameData.players[0],
+            playerTop: this.props.gameData.players[1],
+            playerLeft: this.props.gameData.players[2],
+            currentPlayer: this.props.gameData.currentPlayer,
 
             ws: this.props.ws,
 
@@ -21,6 +25,16 @@ class Game extends React.Component {
         }
 
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+    }
+
+    onDiscard(index) {
+        let data = { roomCode: this.state.gameData.roomCode, index: index }
+        this.state.ws.emit("discard", JSON.stringify(data));
+    }
+
+    onPass() {
+        let data = { roomCode: this.state.gameData.roomCode, actionIndex: -1 }
+        this.state.ws.emit("action", JSON.stringify(data));
     }
 
     updateWindowDimensions() {
@@ -49,6 +63,12 @@ class Game extends React.Component {
         const centerPanelHeight = sidePanelHeight;
 
         const topPlayerHeight = otherAreaHeight * 0.20; // px
+
+        let d = this.state.gameData.direction.num;
+        let turnLeft = d === this.state.playerLeft.direction.num;
+        let turnRight = d === this.state.playerRight.direction.num;
+        let turnTop = d === this.state.playerTop.direction.num;
+        let turnCurrent = d === this.state.playerCurrent.direction.num;
 
         return (
             <div
@@ -87,6 +107,8 @@ class Game extends React.Component {
                         >
                             <Player
                                 position="left"
+                                playerData={this.state.playerLeft}
+                                isTurn={turnLeft}
                                 wWidth={sidePanelWidth}
                                 wHeight={sidePlayerHeight}
                             />
@@ -107,6 +129,8 @@ class Game extends React.Component {
                         >
                             <Player
                                 position="top"
+                                playerData={this.state.playerTop}
+                                isTurn={turnTop}
                                 wWidth={centerPanelWidth}
                                 wHeight={topPlayerHeight}
                             />
@@ -133,7 +157,8 @@ class Game extends React.Component {
                             }}
                         >
                             <GameDisplay
-                                turnType="normal"
+                                turnType={!this.state.gameData.actionTurn}
+                                direction={this.state.gameData.direction}
                                 wWidth={sidePanelWidth}
                                 wHeight={sidePanelHeight - sidePlayerHeight}
                             />
@@ -146,6 +171,8 @@ class Game extends React.Component {
                         >
                             <Player
                                 position="right"
+                                playerData={this.state.playerRight}
+                                isTurn={turnRight}
                                 wWidth={sidePanelWidth}
                                 wHeight={sidePlayerHeight}
                             />
@@ -160,8 +187,12 @@ class Game extends React.Component {
                 >
                     <Player
                         position="center"
+                        playerData={this.state.currentPlayer}
+                        isTurn={turnCurrent}
                         wWidth={this.state.wWidth}
                         wHeight={yourAreaHeight}
+                        onDiscard={(index) => this.onDiscard(index)}
+                        onPass={() => this.onPass()}
                     />
                 </div>
             </div>

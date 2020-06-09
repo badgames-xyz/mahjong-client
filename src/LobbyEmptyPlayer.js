@@ -33,7 +33,6 @@ class LobbyEmptyPlayer extends React.Component {
         let textSize = 25;
         
         let lineHeight = 40;
-        let lineMargin = 25;
 
         return (
             <div

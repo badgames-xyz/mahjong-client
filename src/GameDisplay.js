@@ -17,14 +17,11 @@ class GameDisplay extends React.Component {
         super(props);
 
         this.state = {
-            turnType: this.props.turnType, // or action, comes from props
-            direction: {
-                suit: "special",
-                num: 1,
-            }, // should come from props
+            turnType: this.props.normalTurn, // true if normal, false if action turn
+            direction: this.props.direction,
 
             timer: null,
-            seconds: this.props.turnType === "normal" ? normalLen : actionLen,
+            seconds: this.props.normalTurn ? normalLen : actionLen,
 
             wWidth: this.props.wWidth,
             wHeight: this.props.wHeight,
