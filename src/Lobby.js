@@ -18,7 +18,12 @@ class Lobby extends React.Component {
             ws: this.props.ws,
             lobbyData: this.props.lobbyData,
             statusButtonAvailable: true,
+
+            wWidth: 0,
+            wHeight: 0,
         }
+
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
 
     areAllPlayersReady() {
@@ -65,8 +70,17 @@ class Lobby extends React.Component {
         this.state.ws.emit("leave", JSON.stringify(data));
     }
 
-    componentWillUnmount() {
+    updateWindowDimensions() {
+        this.setState({ wWidth: window.innerWidth, wHeight: window.innerHeight });
+    }
 
+    componentDidMount() {
+        this.updateWindowDimensions();
+        window.addEventListener('resize', this.updateWindowDimensions);
+    }
+      
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowDimensions);
     }
 
     componentDidUpdate(prevProps) {
@@ -105,6 +119,8 @@ class Lobby extends React.Component {
                             isHost={x.isHost}
                             onChangeName={(name) => this.onChangeName(name)}
                             onChangeIcon={(index) => this.onChangeIcon(index)}
+                            wWidth={this.state.wWidth}
+                            wHeight={this.state.wHeight}
                         />
                     ))}
                     <LobbyButtons

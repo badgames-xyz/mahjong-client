@@ -48,11 +48,9 @@ class LobbyPlayer extends React.Component {
 
             changeIcon: false,
 
-            wWidth: 0,
-            wHeight: 0,
+            wWidth: this.props.wWidth,
+            wHeight: this.props.wHeight,
         }
-
-        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
 
     onEditName() {
@@ -226,19 +224,6 @@ class LobbyPlayer extends React.Component {
             </Dialog>
         )
     }
-      
-    updateWindowDimensions() {
-        this.setState({ wWidth: window.innerWidth, wHeight: window.innerHeight });
-    }
-
-    componentDidMount() {
-        this.updateWindowDimensions();
-        window.addEventListener('resize', this.updateWindowDimensions);
-    }
-      
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.updateWindowDimensions);
-    }
 
     componentDidUpdate(prevProps) {
         if (prevProps.ready !== this.props.ready) {
@@ -264,6 +249,16 @@ class LobbyPlayer extends React.Component {
         if (prevProps.isHost !== this.props.isHost) {
             this.setState({
                 isHost: this.props.isHost
+            })
+        }
+        if (prevProps.wWidth !== this.props.wWidth) {
+            this.setState({
+                wWidth: this.props.wWidth
+            })
+        }
+        if (prevProps.wHeight !== this.props.wHeight) {
+            this.setState({
+                wHeight: this.props.wHeight
             })
         }
     }
