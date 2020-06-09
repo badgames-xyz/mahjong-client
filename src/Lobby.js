@@ -3,6 +3,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import NavBar from './NavBar'
 import LobbyPlayer from './LobbyPlayer'
+import LobbyEmptyPlayer from './LobbyEmptyPlayer'
 import LobbyLink from './LobbyLink'
 import LobbyButtons from './LobbyButtons'
 
@@ -94,6 +95,13 @@ class Lobby extends React.Component {
 
     render() {
         if (this.state.lobbyData) {
+            let addBot = "";
+            if (this.state.lobbyData.players.length < 4) {
+                addBot = <LobbyEmptyPlayer
+                    wWidth={this.state.wWidth}
+                    wHeight={this.state.wHeight}
+                />
+            }
             return (
                 <div
                     style={{
@@ -123,6 +131,7 @@ class Lobby extends React.Component {
                             wHeight={this.state.wHeight}
                         />
                     ))}
+                    {addBot}
                     <LobbyButtons
                         ws={this.state.ws}
                         isHost={this.state.lobbyData.currentPlayer.isHost}
