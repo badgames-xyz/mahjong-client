@@ -546,7 +546,7 @@ class Player extends React.Component {
                     </Typography>
                 </div>
             )
-        } else if (this.state.actionTurn && this.state.actions && this.state.actions.length) {
+        } else if (this.state.actionTurn) {
             let takeButtonWidth = 65;
             let takeButtonHeight = 35;
 
