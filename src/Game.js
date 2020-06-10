@@ -87,7 +87,7 @@ class Game extends React.Component {
             turnTop = true;
             turnCurrent = true;
         } else {
-            let d = this.state.gameData.direction.num;
+            let d = this.state.gameData.turn.num;
             turnLeft = d === this.state.playerLeft.direction.num;
             turnRight = d === this.state.playerRight.direction.num;
             turnTop = d === this.state.playerTop.direction.num;
