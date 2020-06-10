@@ -18,9 +18,23 @@ class Player extends React.Component {
 
             wWidth: this.props.wWidth,
             wHeight: this.props.wHeight,
+
+            name: this.props.playerData.name,
+            iconIndex: this.props.playerData.iconIndex,
+            direction: this.props.playerData.direction,
+            completed: this.props.playerData.completed,
+            score: this.props.playerData.score,
+
+            anySelected: false,
+            selectedIndex: -1,
         }
-        
-        this.setFields();
+
+        if (this.state.position === "center") {
+            this.state.hand = this.props.playerData.hand;
+            this.state.actions = this.props.playerData.actions;
+        } else {
+            this.state.handSize = this.props.playerData.handSize;
+        }
     }
 
     setFields() {
