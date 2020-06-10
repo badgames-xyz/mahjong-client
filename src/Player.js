@@ -753,6 +753,9 @@ class Player extends React.Component {
         if (prevProps.wHeight !== this.props.wHeight) {
             this.setState({ wHeight: this.props.wHeight })
         }
+        if (prevProps.actionTurn !== this.props.actionTurn) {
+            this.setState({ actionTurn: this.props.actionTurn })
+        }
         if (prevProps.isTurn !== this.props.isTurn) {
             this.setState({ isTurn: this.props.isTurn })
         }
