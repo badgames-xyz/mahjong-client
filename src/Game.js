@@ -33,7 +33,7 @@ class Game extends React.Component {
     }
 
     onPass() {
-        let data = { roomCode: this.state.gameData.roomCode, actionIndex: -1 }
+        let data = { roomCode: this.state.gameData.roomCode, index: -1 }
         this.state.ws.emit("action", JSON.stringify(data));
     }
 

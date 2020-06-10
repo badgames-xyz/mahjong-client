@@ -591,7 +591,7 @@ class Player extends React.Component {
 
             let buttonTopPadding = (((cardHeight - takeButtonHeight) / 2) + borderWidth);
             let additionalText = ""
-            if (row.length === 0) {
+            if (rows.length === 0) {
                 additionalText = <Typography>
                     No actions available.
                 </Typography>
