@@ -84,6 +84,17 @@ class GameDisplay extends React.Component {
         if (prevProps.wHeight !== this.props.wHeight) {
             this.setState({ wHeight: this.props.wHeight })
         }
+        if (prevProps.direction !== this.props.direction) {
+            this.setState({ direction: this.props.direction })
+        }
+        if (prevProps.normalTurn !== this.props.normalTurn) {
+            this.setState({
+                turnType: this.props.normalTurn,
+
+                timer: null,
+                seconds: this.props.normalTurn ? normalLen : actionLen,
+            })
+        }
     }
 
     render() {

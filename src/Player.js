@@ -15,24 +15,35 @@ class Player extends React.Component {
             position: this.props.position,
             isTurn: this.props.isTurn,
             playerData: this.props.playerData,
-            name: this.props.playerData.name,
-            iconIndex: this.props.playerData.iconIndex,
-            direction: this.props.playerData.direction,
-            completed: this.props.playerData.completed,
-            score: this.props.playerData.score,
-
-            anySelected: false,
-            selectedIndex: -1,
 
             wWidth: this.props.wWidth,
             wHeight: this.props.wHeight,
         }
+        
+        this.setFields();
+    }
+
+    setFields() {
+        this.setState({
+            name: this.state.playerData.name,
+            iconIndex: this.state.playerData.iconIndex,
+            direction: this.state.playerData.direction,
+            completed: this.state.playerData.completed,
+            score: this.state.playerData.score,
+
+            anySelected: false,
+            selectedIndex: -1,
+        })
 
         if (this.state.position === "center") {
-            this.state.hand = this.props.playerData.hand;
-            this.state.actions = this.props.playerData.actions;
+            this.setState({
+                hand: this.state.playerData.hand,
+                actions: this.state.playerData.actions,
+            })
         } else {
-            this.state.handSize = this.props.playerData.handSize;
+            this.setState({
+                handSize: this.state.playerData.handSize,
+            })
         }
     }
 
@@ -718,6 +729,14 @@ class Player extends React.Component {
         }
         if (prevProps.wHeight !== this.props.wHeight) {
             this.setState({ wHeight: this.props.wHeight })
+        }
+        if (prevProps.isTurn !== this.props.isTurn) {
+            this.setState({ isTurn: this.props.isTurn })
+        }
+        if (prevProps.playerData !== this.props.playerData) {
+            this.setState({
+                playerData: this.props.playerData
+            }, () => this.setFields());
         }
     }
 

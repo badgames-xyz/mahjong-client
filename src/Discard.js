@@ -27,6 +27,12 @@ class Discard extends React.Component {
         if (prevProps.wHeight !== this.props.wHeight) {
             this.setState({ wHeight: this.props.wHeight })
         }
+        if (prevProps.discard !== this.props.discard) {
+            this.setState({ discard: this.props.discard })
+        }
+        if (prevProps.drawpile !== this.props.drawpile) {
+            this.setState({ drawpile: this.props.drawpile })
+        }
     }
 
     renderTile(width, height, index){
