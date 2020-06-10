@@ -65,11 +65,22 @@ class Game extends React.Component {
         const topPlayerHeight = otherAreaHeight * 0.20; // px
 
         console.log(this.state.gameData);
-        let d = this.state.gameData.direction.num;
-        let turnLeft = d === this.state.playerLeft.direction.num;
-        let turnRight = d === this.state.playerRight.direction.num;
-        let turnTop = d === this.state.playerTop.direction.num;
-        let turnCurrent = d === this.state.playerCurrent.direction.num;
+        let turnLeft = false;
+        let turnRight = false;
+        let turnTop = false;
+        let turnCurrent = false;
+        if (this.state.gameData.actionTurn) {
+            turnLeft = true;
+            turnRight = true;
+            turnTop = true;
+            turnCurrent = true;
+        } else {
+            let d = this.state.gameData.direction.num;
+            turnLeft = d === this.state.playerLeft.direction.num;
+            turnRight = d === this.state.playerRight.direction.num;
+            turnTop = d === this.state.playerTop.direction.num;
+            turnCurrent = d === this.state.playerCurrent.direction.num;
+        }
 
         return (
             <div
