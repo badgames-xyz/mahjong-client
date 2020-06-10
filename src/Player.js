@@ -28,6 +28,7 @@ class Player extends React.Component {
 
             anySelected: false,
             selectedIndex: -1,
+            passButtonAvailable: true,
         }
 
         if (this.state.position === "center") {
@@ -48,6 +49,7 @@ class Player extends React.Component {
 
             anySelected: false,
             selectedIndex: -1,
+            passButtonAvailable: true,
         })
 
         if (this.state.position === "center") {
@@ -593,7 +595,7 @@ class Player extends React.Component {
             let additionalText = ""
             if (rows.length === 0) {
                 additionalText = <Typography>
-                    No actions available.
+                    No other actions available.
                 </Typography>
             }
 
@@ -610,7 +612,13 @@ class Player extends React.Component {
                 >
                     <Button
                         style={passButtonStyle}
-                        onClick={() => this.props.onPass()}
+                        onClick={() => {
+                            this.setState({
+                                passButtonAvailable: false,
+                            })
+                            this.props.onPass();
+                        }}
+                        disabled={!this.state.passButtonAvailable}
                     >
                         Pass
                     </Button>
