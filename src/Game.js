@@ -53,7 +53,11 @@ class Game extends React.Component {
     componentDidUpdate(prevProps) {
         if (prevProps.gameData !== this.props.gameData) {
             this.setState({
-                gameData: this.props.gameData
+                gameData: this.props.gameData,
+                playerRight: this.props.gameData.players[0],
+                playerTop: this.props.gameData.players[1],
+                playerLeft: this.props.gameData.players[2],
+                playerCurrent: this.props.gameData.currentPlayer,
             })
         }
     }
