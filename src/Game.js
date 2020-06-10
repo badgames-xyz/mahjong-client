@@ -81,12 +81,7 @@ class Game extends React.Component {
         let turnRight = false;
         let turnTop = false;
         let turnCurrent = false;
-        if (this.state.gameData.actionTurn) {
-            turnLeft = true;
-            turnRight = true;
-            turnTop = true;
-            turnCurrent = true;
-        } else {
+        if (!this.state.gameData.actionTurn) {
             let d = this.state.gameData.turn.num;
             turnLeft = d === this.state.playerLeft.direction.num;
             turnRight = d === this.state.playerRight.direction.num;
@@ -133,6 +128,7 @@ class Game extends React.Component {
                                 position="left"
                                 playerData={this.state.playerLeft}
                                 isTurn={turnLeft}
+                                actionTurn={this.state.gameData.actionTurn}
                                 wWidth={sidePanelWidth}
                                 wHeight={sidePlayerHeight}
                             />
@@ -155,6 +151,7 @@ class Game extends React.Component {
                                 position="top"
                                 playerData={this.state.playerTop}
                                 isTurn={turnTop}
+                                actionTurn={this.state.gameData.actionTurn}
                                 wWidth={centerPanelWidth}
                                 wHeight={topPlayerHeight}
                             />
@@ -202,6 +199,7 @@ class Game extends React.Component {
                                 position="right"
                                 playerData={this.state.playerRight}
                                 isTurn={turnRight}
+                                actionTurn={this.state.gameData.actionTurn}
                                 wWidth={sidePanelWidth}
                                 wHeight={sidePlayerHeight}
                             />
@@ -218,6 +216,7 @@ class Game extends React.Component {
                         position="center"
                         playerData={this.state.playerCurrent}
                         isTurn={turnCurrent}
+                        actionTurn={this.state.gameData.actionTurn}
                         wWidth={this.state.wWidth}
                         wHeight={yourAreaHeight}
                         onDiscard={(index) => this.onDiscard(index)}

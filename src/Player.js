@@ -14,6 +14,7 @@ class Player extends React.Component {
         this.state = {
             position: this.props.position,
             isTurn: this.props.isTurn,
+            actionTurn: this.props.actionTurn,
             playerData: this.props.playerData,
 
             wWidth: this.props.wWidth,
@@ -133,7 +134,7 @@ class Player extends React.Component {
 
     createNameTag(height) {
         let border = "";
-        if (this.state.isTurn) {
+        if (this.state.isTurn || this.state.actionTurn) {
             border = "1px solid gold";
         }
         return (
@@ -545,7 +546,7 @@ class Player extends React.Component {
                     </Typography>
                 </div>
             )
-        } else if (this.state.actions && this.state.actions.length) {
+        } else if (this.state.actionTurn && this.state.actions && this.state.actions.length) {
             let takeButtonWidth = 65;
             let takeButtonHeight = 35;
 
@@ -589,6 +590,12 @@ class Player extends React.Component {
             }
 
             let buttonTopPadding = (((cardHeight - takeButtonHeight) / 2) + borderWidth);
+            let additionalText = ""
+            if (row.length === 0) {
+                additionalText = <Typography>
+                    No actions available.
+                </Typography>
+            }
 
             return (
                 <div
@@ -598,6 +605,7 @@ class Player extends React.Component {
                         display: "inline-block",
                         verticalAlign: "top",
                         overflowY: "auto",
+                        textAlign: "center",
                     }}
                 >
                     <Button
@@ -634,6 +642,7 @@ class Player extends React.Component {
                             </div>
                         </div>
                     ))}
+                    {additionalText}
                 </div>
             )
         } else { // may be more cases than 2
