@@ -50,6 +50,14 @@ class Game extends React.Component {
         window.removeEventListener('resize', this.updateWindowDimensions);
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.gameData !== this.props.gameData) {
+            this.setState({
+                gameData: this.props.gameData
+            })
+        }
+    }
+
     render() {
         const navBarHeight = 50; // px
         const otherAreaHeight = this.state.wHeight - navBarHeight;
