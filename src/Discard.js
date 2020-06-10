@@ -62,7 +62,7 @@ class Discard extends React.Component {
 
     render(){
         let rows = []
-        for (let i = 0; i < Math.ceil(this.state.discard.length/maxTilesPerRow); i++){
+        for (let i = 1; i < Math.ceil(this.state.discard.length/maxTilesPerRow); i++){
             rows.push(<div key={i}>{this.renderTileRow(i * maxTilesPerRow, maxTilesPerRow)}</div>)
         }
         let lastDiscard = "";
