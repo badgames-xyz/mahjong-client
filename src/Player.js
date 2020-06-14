@@ -33,7 +33,9 @@ class Player extends React.Component {
 
         if (this.state.position === "center") {
             this.state.hand = this.props.playerData.hand;
+            this.state.lastDrawn = this.props.playerData.lastDrawn;
             this.state.actions = this.props.playerData.actions;
+            this.state.canWin = this.props.playerData.canWin;
         } else {
             this.state.handSize = this.props.playerData.handSize;
         }
@@ -55,7 +57,9 @@ class Player extends React.Component {
         if (this.state.position === "center") {
             this.setState({
                 hand: this.state.playerData.hand,
+                lastDrawn: this.state.playerData.lastDrawn,
                 actions: this.state.playerData.actions,
+                canWin: this.state.playerData.canWin,
             })
         } else {
             this.setState({
@@ -179,12 +183,23 @@ class Player extends React.Component {
             let cardWidth = (width / 15) - (2 * borderWidth);
             let cardHeight = 1.35 * cardWidth;
             let row = []
+            let lastDrawnSet = false;
 
             for (let i = 0; i < this.state.hand.length; ++i) {
                 let source = getCard(this.state.hand[i].suit, this.state.hand[i].num)
                 let actionAreaWidth = cardWidth + (2 * borderWidth);
                 let actionAreaHeight = cardHeight + (2 * borderWidth);
-                let colour = this.state.selectedIndex === i ? "#E9C46A" : borderColour;
+                let colour = borderColour;
+                if (this.state.lastDrawn && !lastDrawnSet) {
+                    if (this.state.hand[i].suit === this.state.lastDrawn.suit &&
+                        this.state.hand[i].num === this.state.lastDrawn.num) {
+                            colour = "#59CE27"; // light green
+                            lastDrawnSet = true;
+                        }
+                }
+                if (this.state.selectedIndex === i) {
+                    colour = "#E9C46A";
+                }
                 row.push(
                     <CardActionArea
                         key={i}
@@ -540,6 +555,8 @@ class Player extends React.Component {
                 >
                     <Button
                         style={winButtonStyle}
+                        disabled={!this.state.playerData.canWin}
+                        onClick={() => this.props.onWin()}
                     >
                         declare win
                     </Button>
@@ -637,6 +654,7 @@ class Player extends React.Component {
                             >
                                 <Button
                                     style={takeButtonStyle}
+                                    onClick={() => this.props.onAction(i)}
                                 >
                                     {this.state.actions[i].type}
                                 </Button>
@@ -653,7 +671,7 @@ class Player extends React.Component {
                     {additionalText}
                 </div>
             )
-        } else { // may be more cases than 2
+        } else { // Not your turn, not your action turn
             return (
                 <div
                     style={{
@@ -664,7 +682,7 @@ class Player extends React.Component {
                     }}
                 >
                     <Typography>
-                        No actions right now.
+                        Wait for other players.
                     </Typography>
                 </div>
             )

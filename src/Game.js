@@ -1,4 +1,7 @@
 import React from 'react';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
 
 import NavBar from './NavBar'
 import Player from './Player'
@@ -35,6 +38,16 @@ class Game extends React.Component {
     onPass() {
         let data = { roomCode: this.state.gameData.roomCode, index: -1 }
         this.state.ws.emit("action", JSON.stringify(data));
+    }
+
+    onAction(index) {
+        let data = { roomCode: this.state.gameData.roomCode, index: index }
+        this.state.ws.emit("action", JSON.stringify(data));
+    }
+
+    onWin() {
+        let data = { roomCode: this.state.gameData.roomCode }
+        this.state.ws.emit("win", JSON.stringify(data));
     }
 
     updateWindowDimensions() {
@@ -89,6 +102,11 @@ class Game extends React.Component {
             turnCurrent = d === this.state.playerCurrent.direction.num;
         }
 
+        let winDialog = false;
+        if (this.state.gameData.winner) {
+            winDialog = true;
+        }
+
         return (
             <div
                 style={{
@@ -98,6 +116,32 @@ class Game extends React.Component {
                 <NavBar
                     onClickLogo={() => {}}
                 />
+                <Modal
+                    open={winDialog}
+                    // onClose={handleClose}
+                    closeAfterTransition
+                    BackdropComponent={Backdrop}
+                    BackdropProps={{
+                        timeout: 500,
+                    }}
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
+                    <Fade in={winDialog}>
+                        <div
+                            style={{
+                                width: "500px",
+                                height: "300px",
+                                background: "white",
+                            }}
+                        >
+                            <h2>Winner!</h2>
+                        </div>
+                    </Fade>
+                </Modal>
                 <div
                     style={{
                         width: this.state.wWidth + "px",
@@ -184,6 +228,7 @@ class Game extends React.Component {
                         >
                             <GameDisplay
                                 turnType={!this.state.gameData.actionTurn}
+                                time={this.state.gameData.time}
                                 direction={this.state.gameData.direction}
                                 wWidth={sidePanelWidth}
                                 wHeight={sidePanelHeight - sidePlayerHeight}
@@ -221,6 +266,8 @@ class Game extends React.Component {
                         wHeight={yourAreaHeight}
                         onDiscard={(index) => this.onDiscard(index)}
                         onPass={() => this.onPass()}
+                        onAction={(index) => this.onAction(index)}
+                        onWin={() => this.onWin()}
                     />
                 </div>
             </div>

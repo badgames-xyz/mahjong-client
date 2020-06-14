@@ -21,11 +21,9 @@ class GameDisplay extends React.Component {
         super(props);
 
         this.state = {
-            turnType: this.props.turnType, // true if normal, false if action turn
+            turnType: this.props.turnType,
+            time: this.props.time,
             direction: this.props.direction,
-
-            timer: null,
-            seconds: this.props.turnType ? normalLen : actionLen,
 
             wWidth: this.props.wWidth,
             wHeight: this.props.wHeight,
@@ -36,9 +34,9 @@ class GameDisplay extends React.Component {
 
     componentDidMount() {
         this.timer = setInterval(() => {
-            if (this.state.seconds !== 0) {
+            if (this.state.time !== 0) {
                 this.setState((prevState) => ({
-                    seconds: prevState.seconds - 1,
+                    time: prevState.time - 1,
                 }))
             } else {
                 clearInterval(this.timer)
@@ -54,10 +52,10 @@ class GameDisplay extends React.Component {
             threshold2 = 10;
         }
         let colour = colour1;
-        if (this.state.seconds < threshold1) {
+        if (this.state.time < threshold1) {
             colour = colour2;
         }
-        if (this.state.seconds < threshold2) {
+        if (this.state.time < threshold2) {
             colour = colour3;
         }
         return (
@@ -67,7 +65,7 @@ class GameDisplay extends React.Component {
                     color: colour,
                 }}
             >
-                {this.state.seconds}
+                {this.state.time}
             </Typography>
         )
     }
@@ -96,29 +94,27 @@ class GameDisplay extends React.Component {
         if (prevProps.direction !== this.props.direction) {
             this.setState({ direction: this.props.direction })
         }
-        if (prevProps.turnType !== this.props.turnType) {
+        if (prevProps.time !== this.props.time) {
             this.setState({
-                turnType: this.props.turnType,
-
-                timer: null,
-                seconds: this.props.turnType ? normalLen : actionLen,
+                time: this.props.time,
+            }, () => {
+                clearInterval(this.timer);
+                this.timer = setInterval(() => {
+                    if (this.state.time !== 0) {
+                        this.setState((prevState) => ({
+                            time: prevState.time - 1,
+                        }))
+                    } else {
+                        clearInterval(this.timer);
+                    }
+                }, 1000)
             })
-            clearInterval(this.timer);
-            this.timer = setInterval(() => {
-                if (this.state.seconds !== 0) {
-                    this.setState((prevState) => ({
-                        seconds: prevState.seconds - 1,
-                    }))
-                } else {
-                    clearInterval(this.timer);
-                }
-            }, 1000)
         }
     }
 
     render() {
         let timerPadding = this.state.wWidth - 130;
-        if (this.state.seconds < 10) {
+        if (this.state.time < 10) {
             timerPadding += 30
         }
         return (
