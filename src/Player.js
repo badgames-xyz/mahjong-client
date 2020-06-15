@@ -24,7 +24,7 @@ class Player extends React.Component {
             iconIndex: this.props.playerData.iconIndex,
             direction: this.props.playerData.direction,
             completed: this.props.playerData.completed,
-            score: this.props.playerData.score,
+            money: this.props.playerData.money,
 
             anySelected: false,
             selectedIndex: -1,
@@ -47,7 +47,7 @@ class Player extends React.Component {
             iconIndex: this.state.playerData.iconIndex,
             direction: this.state.playerData.direction,
             completed: this.state.playerData.completed,
-            score: this.state.playerData.score,
+            money: this.state.playerData.money,
 
             anySelected: false,
             selectedIndex: -1,
@@ -122,6 +122,23 @@ class Player extends React.Component {
         />
     }
 
+    createMoney() {
+        const fontSize = 20;
+        return <Typography
+            style={{
+                fontSize: fontSize + "px",
+                overflow: "hidden",
+                display: "inline-block",
+                marginLeft: "5px",
+                verticalAlign: "middle",
+                // color: "",
+            }}
+            noWrap={true}
+        >
+            {this.state.money}
+        </Typography>
+    }
+
     createName() {
         const fontSize = 20;
         return <Typography
@@ -154,6 +171,7 @@ class Player extends React.Component {
             >
                 {this.createDirection()}
                 {this.createIcon()}
+                {this.createMoney()}
                 {this.createName()}
             </div>
         )

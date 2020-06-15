@@ -3,9 +3,6 @@ import React from 'react';
 import { getCard } from './Pictures'
 import { Typography } from '@material-ui/core';
 
-const normalLen = 30;
-const actionLen = 10;
-
 const width = 50;
 const height = width * 1.35;
 
