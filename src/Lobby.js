@@ -7,7 +7,7 @@ import LobbyEmptyPlayer from './LobbyEmptyPlayer'
 import LobbyLink from './LobbyLink'
 import LobbyButtons from './LobbyButtons'
 
-const linkPrefix = "badmahjong.xyz/";
+const linkPrefix = "badmahjong-client.herokuapp.com/";
 
 const backgroundColour = "#2A9D8F";
 

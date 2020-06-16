@@ -81,6 +81,7 @@ class LobbyLink extends React.Component {
                             <Typography
                                 style={{
                                     fontSize: "25px",
+                                    overflow: "hidden",
                                 }}
                                 align="center"
                             >
