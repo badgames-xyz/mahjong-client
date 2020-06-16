@@ -8,7 +8,9 @@ class Mahjong extends React.Component {
     constructor(props) {
         super(props);
 
-        let roomCode = String(window.location.pathname).slice(1);
+        let roomCode = String(window.location.pathname).replace("/mahjong-client/", "");
+        console.log(String(window.location.pathname))
+        console.log(roomCode)
 
         this.state = {
             lobbyMethod: "join",

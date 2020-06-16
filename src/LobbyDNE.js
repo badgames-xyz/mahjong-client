@@ -61,7 +61,7 @@ class LobbyDNE extends React.Component {
                 >
                     <Button
                         component={Link}
-                        to="/"
+                        to="/mahjong-client/"
                         style={buttonStyle}
                         variant="contained"
                     >

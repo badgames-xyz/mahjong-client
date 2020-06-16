@@ -63,7 +63,7 @@ class Home extends React.Component {
             return (
                 <Redirect
                     to={{
-                        pathname: '/' + this.state.lobbyData.roomCode,
+                        pathname: '/mahjong-client/' + this.state.lobbyData.roomCode,
                         state: {
                             lobbyData: this.state.lobbyData,
                             lobbyMethod: "create",

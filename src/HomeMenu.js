@@ -189,7 +189,7 @@ class HomeMenu extends React.Component {
                     >
                         <Button
                             component={Link}
-                            to={"/" + this.state.roomCode}
+                            to={"/mahjong-client/" + this.state.roomCode}
                             style={joinButtonStyle}
                             variant="contained"
                         >

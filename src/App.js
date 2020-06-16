@@ -35,7 +35,7 @@ class App extends React.Component {
             <Router history={history}>
                 <Switch>
                     <Route
-                        path="/"
+                        path="/mahjong-client/"
                         exact
                         render={(props) => <HomePage {...props} ws={this.ws} />}
                     />
@@ -45,7 +45,7 @@ class App extends React.Component {
                         render={(props) => <Game {...props} ws={this.ws} />}
                     />
                     <Route 
-                        path='/:handle'
+                        path='/mahjong-client/:handle'
                         render={(props) => <Mahjong {...props} ws={this.ws} />}
                     />
                 </Switch>

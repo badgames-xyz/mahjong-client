@@ -184,7 +184,7 @@ class LobbyButtons extends React.Component {
                     >
                         <Button
                             component={Link}
-                            to="/"
+                            to="/mahjong-client/"
                             variant="contained"
                             style={{
                                 width: buttonWidth + "px",

@@ -32,7 +32,7 @@ class NavBar extends React.Component {
             >
                 <CardActionArea
                     component={Link}
-                    to="/"
+                    to="/mahjong-client/"
                     disableRipple
                 >
                     <img
