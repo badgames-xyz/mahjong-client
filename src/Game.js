@@ -110,7 +110,8 @@ class Game extends React.Component {
         return (
             <div
                 style={{
-                    backgroundColor: backgroundColour
+                    backgroundColor: backgroundColour,
+                    overflow: "hidden",
                 }}
             >
                 <NavBar
