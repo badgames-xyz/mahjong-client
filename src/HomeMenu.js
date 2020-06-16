@@ -125,6 +125,7 @@ class HomeMenu extends React.Component {
                         to="testgame"
                         style={buttonStyle}
                         variant="contained"
+                        disabled={true}
                     >
                         <Typography variant="h3">
                             Single Player

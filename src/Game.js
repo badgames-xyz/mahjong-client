@@ -230,6 +230,7 @@ class Game extends React.Component {
                                 turnType={!this.state.gameData.actionTurn}
                                 time={this.state.gameData.time}
                                 direction={this.state.gameData.direction}
+                                newGame={this.state.gameData.newGame}
                                 wWidth={sidePanelWidth}
                                 wHeight={sidePanelHeight - sidePlayerHeight}
                             />

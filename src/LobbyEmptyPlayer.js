@@ -72,6 +72,7 @@ class LobbyEmptyPlayer extends React.Component {
                         style={{
                             background: "#264653",
                         }}
+                        disabled={true}
                     >
                         <Typography
                             style={{
