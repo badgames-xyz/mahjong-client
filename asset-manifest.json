@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.js": "/mahjong-client/static/js/main.afdbe21b.chunk.js",
-    "main.js.map": "/mahjong-client/static/js/main.afdbe21b.chunk.js.map",
+    "main.js": "/mahjong-client/static/js/main.ee9e8d93.chunk.js",
+    "main.js.map": "/mahjong-client/static/js/main.ee9e8d93.chunk.js.map",
     "runtime-main.js": "/mahjong-client/static/js/runtime-main.c89ee409.js",
     "runtime-main.js.map": "/mahjong-client/static/js/runtime-main.c89ee409.js.map",
-    "static/js/2.fd66b526.chunk.js": "/mahjong-client/static/js/2.fd66b526.chunk.js",
-    "static/js/2.fd66b526.chunk.js.map": "/mahjong-client/static/js/2.fd66b526.chunk.js.map",
+    "static/js/2.8a7fbe18.chunk.js": "/mahjong-client/static/js/2.8a7fbe18.chunk.js",
+    "static/js/2.8a7fbe18.chunk.js.map": "/mahjong-client/static/js/2.8a7fbe18.chunk.js.map",
     "index.html": "/mahjong-client/index.html",
-    "precache-manifest.f43b3429ebf57f3d7b46ba22c4dd1203.js": "/mahjong-client/precache-manifest.f43b3429ebf57f3d7b46ba22c4dd1203.js",
+    "precache-manifest.cd804d13ec946b2b72b7b48e0d415a2d.js": "/mahjong-client/precache-manifest.cd804d13ec946b2b72b7b48e0d415a2d.js",
     "service-worker.js": "/mahjong-client/service-worker.js",
-    "static/js/2.fd66b526.chunk.js.LICENSE.txt": "/mahjong-client/static/js/2.fd66b526.chunk.js.LICENSE.txt",
+    "static/js/2.8a7fbe18.chunk.js.LICENSE.txt": "/mahjong-client/static/js/2.8a7fbe18.chunk.js.LICENSE.txt",
     "static/media/ghettoyuta.png": "/mahjong-client/static/media/ghettoyuta.f5364301.png",
     "static/media/poggers.png": "/mahjong-client/static/media/poggers.0057f949.png",
     "static/media/rila.png": "/mahjong-client/static/media/rila.196fc48a.png",
@@ -18,7 +18,7 @@
   },
   "entrypoints": [
     "static/js/runtime-main.c89ee409.js",
-    "static/js/2.fd66b526.chunk.js",
-    "static/js/main.afdbe21b.chunk.js"
+    "static/js/2.8a7fbe18.chunk.js",
+    "static/js/main.ee9e8d93.chunk.js"
   ]
 }
