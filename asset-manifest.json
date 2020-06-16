@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/mahjong-client/static/js/main.22c9a533.chunk.js",
-    "main.js.map": "/mahjong-client/static/js/main.22c9a533.chunk.js.map",
+    "main.js": "/mahjong-client/static/js/main.fcf9b2ea.chunk.js",
+    "main.js.map": "/mahjong-client/static/js/main.fcf9b2ea.chunk.js.map",
     "runtime-main.js": "/mahjong-client/static/js/runtime-main.c89ee409.js",
     "runtime-main.js.map": "/mahjong-client/static/js/runtime-main.c89ee409.js.map",
     "static/js/2.fd66b526.chunk.js": "/mahjong-client/static/js/2.fd66b526.chunk.js",
     "static/js/2.fd66b526.chunk.js.map": "/mahjong-client/static/js/2.fd66b526.chunk.js.map",
     "index.html": "/mahjong-client/index.html",
-    "precache-manifest.f7b0300964ee9f60706b311de9cd85b5.js": "/mahjong-client/precache-manifest.f7b0300964ee9f60706b311de9cd85b5.js",
+    "precache-manifest.eb283806fb7aac7b831d488bab81d48d.js": "/mahjong-client/precache-manifest.eb283806fb7aac7b831d488bab81d48d.js",
     "service-worker.js": "/mahjong-client/service-worker.js",
     "static/js/2.fd66b526.chunk.js.LICENSE.txt": "/mahjong-client/static/js/2.fd66b526.chunk.js.LICENSE.txt",
     "static/media/ghettoyuta.png": "/mahjong-client/static/media/ghettoyuta.f5364301.png",
@@ -19,6 +19,6 @@
   "entrypoints": [
     "static/js/runtime-main.c89ee409.js",
     "static/js/2.fd66b526.chunk.js",
-    "static/js/main.22c9a533.chunk.js"
+    "static/js/main.fcf9b2ea.chunk.js"
   ]
 }
