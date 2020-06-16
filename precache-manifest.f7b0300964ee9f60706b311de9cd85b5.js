@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d317fd7c3938275fdbf33f78a8530213",
+    "revision": "77df683363603cab3588412af34f6b2e",
     "url": "/mahjong-client/index.html"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/mahjong-client/static/js/2.fd66b526.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "a46b7a3b58d4df3699f1",
-    "url": "/mahjong-client/static/js/main.8b53d8a3.chunk.js"
+    "revision": "c13ed8b17d44948d32aa",
+    "url": "/mahjong-client/static/js/main.22c9a533.chunk.js"
   },
   {
     "revision": "d3c3e48b5d50afb41d12",
