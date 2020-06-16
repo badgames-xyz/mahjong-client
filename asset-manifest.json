@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.js": "/badmahjong-client/static/js/main.10e5b37a.chunk.js",
+    "main.js.map": "/badmahjong-client/static/js/main.10e5b37a.chunk.js.map",
+    "runtime-main.js": "/badmahjong-client/static/js/runtime-main.774feae7.js",
+    "runtime-main.js.map": "/badmahjong-client/static/js/runtime-main.774feae7.js.map",
+    "static/js/2.1514b5df.chunk.js": "/badmahjong-client/static/js/2.1514b5df.chunk.js",
+    "static/js/2.1514b5df.chunk.js.map": "/badmahjong-client/static/js/2.1514b5df.chunk.js.map",
+    "index.html": "/badmahjong-client/index.html",
+    "precache-manifest.7bc704f03e74903a4567a356c1b21197.js": "/badmahjong-client/precache-manifest.7bc704f03e74903a4567a356c1b21197.js",
+    "service-worker.js": "/badmahjong-client/service-worker.js",
+    "static/js/2.1514b5df.chunk.js.LICENSE.txt": "/badmahjong-client/static/js/2.1514b5df.chunk.js.LICENSE.txt",
+    "static/media/ghettoyuta.png": "/badmahjong-client/static/media/ghettoyuta.f5364301.png",
+    "static/media/poggers.png": "/badmahjong-client/static/media/poggers.0057f949.png",
+    "static/media/rila.png": "/badmahjong-client/static/media/rila.196fc48a.png",
+    "static/media/stick1.png": "/badmahjong-client/static/media/stick1.6df6697b.png",
+    "static/media/yessir.png": "/badmahjong-client/static/media/yessir.2e4a17b9.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.774feae7.js",
+    "static/js/2.1514b5df.chunk.js",
+    "static/js/main.10e5b37a.chunk.js"
+  ]
+}
