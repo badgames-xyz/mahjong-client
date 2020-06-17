@@ -54,6 +54,7 @@ class Mahjong extends React.Component {
             gameStarted: true,
             gameData: gameData,
         })
+        console.log(gameData)
     }
 
     onLeave() {

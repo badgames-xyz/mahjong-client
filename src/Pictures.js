@@ -151,6 +151,8 @@ export function getCard(suit, num) {
             default:
                 break;
         }
+    } else if (suit === "hidden") {
+        return hiddenback
     }
 }
 

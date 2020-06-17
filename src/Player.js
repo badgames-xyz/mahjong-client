@@ -561,6 +561,45 @@ class Player extends React.Component {
                 marginBottom: "10px",
             }
 
+            let takeButtonWidth = 65;
+            let takeButtonHeight = 35;
+
+            let cardWidth = ((width - takeButtonWidth) / 4) - (2 * borderWidth);
+            let cardHeight = cardWidth * 1.35;
+
+            let takeButtonStyle = {
+                float: "left",
+                alignItems: "center",
+                width: takeButtonWidth + "px",
+                height: takeButtonHeight + "px",
+                background: "#E9C46A",
+            }
+
+            let buttonTopPadding = (((cardHeight - takeButtonHeight) / 2) + borderWidth);
+
+            let rows = []
+            for (let j = 0; j < this.state.actions.length; ++j) {
+                let row = []
+                for (let i = 0; i < this.state.actions[j].cards.length; ++i) {
+                    let suit = this.state.actions[j].cards[i].suit;
+                    let num = this.state.actions[j].cards[i].num;
+                    let source = getCard(suit, num)
+                    row.push(
+                        <img
+                            key={i}
+                            style={{
+                                width: cardWidth + "px",
+                                height: cardHeight + "px",
+                                border: borderWidth + "px solid " + borderColour,
+                            }}
+                            src={source}
+                            alt={"Hidden Piece"}
+                        />
+                    )
+                }
+                rows.push(row);
+            }
+
             return (
                 <div
                     style={{
@@ -569,6 +608,7 @@ class Player extends React.Component {
                         display: "inline-block",
                         verticalAlign: "top",
                         textAlign: "center",
+                        overflowY: "auto",
                     }}
                 >
                     <Button
@@ -578,6 +618,35 @@ class Player extends React.Component {
                     >
                         declare win
                     </Button>
+                    {rows.map((x, i) => (
+                        <div
+                            key={i}
+                            style={{
+                                display: "flex",
+                                marginTop: "5px",
+                            }}
+                        >
+                            <div
+                                style={{
+                                    paddingTop: buttonTopPadding + "px",
+                                }}
+                            >
+                                <Button
+                                    style={takeButtonStyle}
+                                    onClick={() => this.props.onTurnAction(i)}
+                                >
+                                    {this.state.actions[i].type}
+                                </Button>
+                            </div>
+                            <div
+                                style={{
+                                    float: "left",
+                                }}
+                            >
+                                {x}
+                            </div>
+                        </div>
+                    ))}
                     <Typography>
                         Or click to discard a card.
                     </Typography>

@@ -45,6 +45,11 @@ class Game extends React.Component {
         this.state.ws.emit("action", JSON.stringify(data));
     }
 
+    onTurnAction(index) {
+        let data = { roomCode: this.state.gameData.roomCode, index: index }
+        this.state.ws.emit("turnAction", JSON.stringify(data));
+    }
+
     onWin() {
         let data = { roomCode: this.state.gameData.roomCode }
         this.state.ws.emit("win", JSON.stringify(data));
@@ -89,7 +94,6 @@ class Game extends React.Component {
 
         const topPlayerHeight = otherAreaHeight * 0.20; // px
 
-        console.log(this.state.gameData);
         let turnLeft = false;
         let turnRight = false;
         let turnTop = false;
@@ -229,7 +233,7 @@ class Game extends React.Component {
                         >
                             <GameDisplay
                                 turnType={!this.state.gameData.actionTurn}
-                                time={this.state.gameData.time}
+                                time={this.state.gameData.timeLeft}
                                 direction={this.state.gameData.direction}
                                 newGame={this.state.gameData.newGame}
                                 wWidth={sidePanelWidth}
@@ -269,6 +273,7 @@ class Game extends React.Component {
                         onDiscard={(index) => this.onDiscard(index)}
                         onPass={() => this.onPass()}
                         onAction={(index) => this.onAction(index)}
+                        onTurnAction={(index) => this.onTurnAction(index)}
                         onWin={() => this.onWin()}
                     />
                 </div>
