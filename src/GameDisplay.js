@@ -29,16 +29,27 @@ class GameDisplay extends React.Component {
 
     timer = null;
 
+    setTimer(time) {
+        this.setState({
+            time: time,
+        }, () => {
+            clearInterval(this.timer);
+            this.timer = null;
+            this.timer = setInterval(() => {
+                if (this.state.time !== 0) {
+                    this.setState((prevState) => ({
+                        time: prevState.time - 1,
+                    }))
+                } else {
+                    clearInterval(this.timer);
+                    this.timer = null;
+                }
+            }, 1000)
+        })
+    }
+
     componentDidMount() {
-        this.timer = setInterval(() => {
-            if (this.state.time !== 0) {
-                this.setState((prevState) => ({
-                    time: prevState.time - 1,
-                }))
-            } else {
-                clearInterval(this.timer)
-            }
-        }, 1000)
+        this.setTimer(this.state.time)
     }
 
     createTimer() {
@@ -92,20 +103,8 @@ class GameDisplay extends React.Component {
             this.setState({ direction: this.props.direction })
         }
         if (prevProps.time !== this.props.time || prevProps.newGame !== this.props.newGame) {
-            this.setState({
-                time: this.props.time,
-            }, () => {
-                clearInterval(this.timer);
-                this.timer = setInterval(() => {
-                    if (this.state.time !== 0) {
-                        this.setState((prevState) => ({
-                            time: prevState.time - 1,
-                        }))
-                    } else {
-                        clearInterval(this.timer);
-                    }
-                }, 1000)
-            })
+            console.log(`Prevprops time: ${prevProps.time}, props time: ${this.props.time}`);
+            this.setTimer(this.props.time);
         }
     }
 

@@ -703,10 +703,25 @@ class Player extends React.Component {
 
             let buttonTopPadding = (((cardHeight - takeButtonHeight) / 2) + borderWidth);
             let additionalText = ""
+
+            let passButton = <Button
+                style={passButtonStyle}
+                onClick={() => {
+                    this.setState({
+                        passButtonAvailable: false,
+                    })
+                    this.props.onPass();
+                }}
+                disabled={!this.state.passButtonAvailable}
+            >
+                Pass
+            </Button>
+
             if (rows.length === 0) {
                 additionalText = <Typography>
                     No other actions available.
                 </Typography>
+                passButton = "";
             }
 
             return (
@@ -720,18 +735,7 @@ class Player extends React.Component {
                         textAlign: "center",
                     }}
                 >
-                    <Button
-                        style={passButtonStyle}
-                        onClick={() => {
-                            this.setState({
-                                passButtonAvailable: false,
-                            })
-                            this.props.onPass();
-                        }}
-                        disabled={!this.state.passButtonAvailable}
-                    >
-                        Pass
-                    </Button>
+                    {passButton}
                     {rows.map((x, i) => (
                         <div
                             key={i}

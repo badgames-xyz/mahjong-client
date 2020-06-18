@@ -28,6 +28,8 @@ class Game extends React.Component {
         }
 
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+
+        this.gameDisplay = React.createRef();
     }
 
     onDiscard(index) {
@@ -77,6 +79,8 @@ class Game extends React.Component {
                 playerLeft: this.props.gameData.players[2],
                 playerCurrent: this.props.gameData.currentPlayer,
             })
+
+            this.gameDisplay.current.setTimer(this.props.gameData.timeLeft)
         }
     }
 
@@ -232,6 +236,7 @@ class Game extends React.Component {
                             }}
                         >
                             <GameDisplay
+                                ref={this.gameDisplay}
                                 turnType={!this.state.gameData.actionTurn}
                                 time={this.state.gameData.timeLeft}
                                 direction={this.state.gameData.direction}
