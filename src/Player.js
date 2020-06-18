@@ -29,6 +29,7 @@ class Player extends React.Component {
             anySelected: false,
             selectedIndex: -1,
             passButtonAvailable: true,
+            actionButtonAvailable: true,
         }
 
         if (this.state.position === "center") {
@@ -52,6 +53,7 @@ class Player extends React.Component {
             anySelected: false,
             selectedIndex: -1,
             passButtonAvailable: true,
+            actionButtonAvailable: true,
         })
 
         if (this.state.position === "center") {
@@ -633,7 +635,11 @@ class Player extends React.Component {
                             >
                                 <Button
                                     style={takeButtonStyle}
-                                    onClick={() => this.props.onTurnAction(i)}
+                                    onClick={() => {
+                                        this.props.onTurnAction(i)
+                                        this.setState({ actionButtonAvailable: false })
+                                    }}
+                                    disabled={!this.state.actionButtonAvailable}
                                 >
                                     {this.state.actions[i].type}
                                 </Button>
@@ -741,7 +747,11 @@ class Player extends React.Component {
                             >
                                 <Button
                                     style={takeButtonStyle}
-                                    onClick={() => this.props.onAction(i)}
+                                    onClick={() => {
+                                        this.props.onAction(i)
+                                        this.setState({ actionButtonAvailable: false })
+                                    }}
+                                    disabled={!this.state.actionButtonAvailable}
                                 >
                                     {this.state.actions[i].type}
                                 </Button>
