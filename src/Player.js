@@ -204,6 +204,7 @@ class Player extends React.Component {
             let cardHeight = 1.35 * cardWidth;
             let row = []
             let lastDrawnSet = false;
+            let lastDrawnIndex = -1
 
             for (let i = 0; i < this.state.hand.length; ++i) {
                 let source = getCard(this.state.hand[i].suit, this.state.hand[i].num)
@@ -215,6 +216,7 @@ class Player extends React.Component {
                         this.state.hand[i].num === this.state.lastDrawn.num) {
                             colour = "#59CE27"; // light green
                             lastDrawnSet = true;
+                            lastDrawnIndex = i
                         }
                 }
                 if (this.state.selectedIndex === i) {
@@ -243,11 +245,12 @@ class Player extends React.Component {
                 );
             }
 
-            if (this.state.isTurn && this.state.anySelected) {
+            if (this.state.isTurn) {
                 let tcw = cardWidth + (2 * borderWidth); // total card width
                 let buttonHeight = 35;
                 let buttonWidth = 75;
-                let buttonPadding = ((tcw / 2) - (buttonWidth / 2)) + (this.state.selectedIndex * tcw);
+                let discardButtonPadding = ((tcw / 2) - (buttonWidth / 2)) + (this.state.selectedIndex * tcw);
+                let newButtonPadding = ((tcw / 2) - (buttonWidth / 2)) + (lastDrawnIndex * tcw);
                 let topPadding = (height - cardHeight - (2 * borderWidth)) / 2 + 4 - buttonHeight;
                 let leftPadding = (width - (row.length * (cardWidth + (2 * borderWidth)))) / 2;
 
@@ -262,17 +265,35 @@ class Player extends React.Component {
                     }}
                 >
                     <div>
-                        <Button
-                            style={{
-                                height: buttonHeight + "px",
-                                width: buttonWidth + "px",
-                                marginLeft: buttonPadding + "px",
-                                background: "#E9C46A",
-                            }}
-                            onClick={() => this.props.onDiscard(this.state.selectedIndex)}
-                        >
-                            Discard
-                        </Button>
+                        {this.state.anySelected ?
+                            <Button
+                                style={{
+                                    height: buttonHeight + "px",
+                                    width: buttonWidth + "px",
+                                    marginLeft: discardButtonPadding + "px",
+                                    background: '#59CE27',
+                                }}
+                                onClick={() => this.props.onDiscard(this.state.selectedIndex)}
+                            >
+                                Discard
+                            </Button>
+                            :
+                            ""
+                        }
+                        {((this.state.anySelected && (this.state.selectedIndex !== lastDrawnIndex)) || !this.state.anySelected) ? 
+                            <Button
+                                style={{
+                                    height: buttonHeight + "px",
+                                    width: buttonWidth + "px",
+                                    marginLeft: (newButtonPadding - ((discardButtonPadding + buttonWidth) * this.state.anySelected)) + "px",
+                                    background: "#E9C46A",
+                                }}
+                            >
+                                New
+                            </Button> 
+                            : 
+                            ""
+                        }
                     </div>
                     {row}
                 </div>
