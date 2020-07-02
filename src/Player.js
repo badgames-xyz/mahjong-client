@@ -319,13 +319,13 @@ class Player extends React.Component {
             let cardHeight = 40;
             let firstCol = []
             let secondCol = []
-            const colLim = 7;
+            const colMin = 7;
             let firstLen = Math.round(this.state.handSize / 2);
             let secondLen = this.state.handSize - firstLen;
 
             let cardPadding = (width - (2 * (cardWidth + (2 * borderWidth)))) / 3; // px
-            if (this.state.handSize === colLim) {
-                firstLen = colLim;
+            if (this.state.handSize <= colMin) {
+                firstLen = this.state.handSize;
                 secondLen = 0;
                 cardPadding = (width - (cardWidth + (2 * borderWidth))) / 2;
             }
