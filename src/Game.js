@@ -1,12 +1,10 @@
 import React from 'react';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
 
 import NavBar from './NavBar'
 import Player from './Player'
 import Discard from './Discard'
 import GameDisplay from './GameDisplay';
+import WinModal from './WinModal';
 
 const backgroundColour = "#2A9D8F";
 
@@ -125,32 +123,11 @@ class Game extends React.Component {
                 <NavBar
                     onClickLogo={() => {}}
                 />
-                <Modal
-                    open={winDialog}
-                    // onClose={handleClose}
-                    closeAfterTransition
-                    BackdropComponent={Backdrop}
-                    BackdropProps={{
-                        timeout: 500,
-                    }}
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >
-                    <Fade in={winDialog}>
-                        <div
-                            style={{
-                                width: "500px",
-                                height: "300px",
-                                background: "white",
-                            }}
-                        >
-                            <h2>Winner!</h2>
-                        </div>
-                    </Fade>
-                </Modal>
+                <WinModal
+                    show={winDialog}
+                    winnerData={this.state.gameData.winner}
+                    width={this.state.wWidth * 0.7}
+                />
                 <div
                     style={{
                         width: this.state.wWidth + "px",
