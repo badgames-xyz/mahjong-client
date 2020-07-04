@@ -103,7 +103,6 @@ class GameDisplay extends React.Component {
             this.setState({ direction: this.props.direction })
         }
         if (prevProps.time !== this.props.time || prevProps.newGame !== this.props.newGame) {
-            console.log(`Prevprops time: ${prevProps.time}, props time: ${this.props.time}`);
             this.setTimer(this.props.time);
         }
     }

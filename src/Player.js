@@ -203,7 +203,7 @@ class Player extends React.Component {
             let cardWidth = (width / 15) - (2 * borderWidth);
             let cardHeight = 1.35 * cardWidth;
             let row = []
-            let lastDrawnSet = false;
+            let lastDrawnSet = false; // don't highlight the same card twice
             let lastDrawnIndex = -1
 
             for (let i = 0; i < this.state.hand.length; ++i) {
@@ -220,7 +220,7 @@ class Player extends React.Component {
                         }
                 }
                 if (this.state.selectedIndex === i) {
-                    colour = "#E9C46A";
+                    colour = "#E9C46A"; // yellow
                 }
                 row.push(
                     <CardActionArea
@@ -249,8 +249,13 @@ class Player extends React.Component {
                 let tcw = cardWidth + (2 * borderWidth); // total card width
                 let buttonHeight = 35;
                 let buttonWidth = 75;
-                let discardButtonPadding = ((tcw / 2) - (buttonWidth / 2)) + (this.state.selectedIndex * tcw);
+
+                let showNewButton = this.state.lastDrawn && (this.state.anySelected ? this.state.selectedIndex !== lastDrawnIndex : true);
                 let newButtonPadding = ((tcw / 2) - (buttonWidth / 2)) + (lastDrawnIndex * tcw);
+                let discardButtonPadding = ((tcw / 2) - (buttonWidth / 2)) + (this.state.selectedIndex * tcw);
+                if (showNewButton) {
+                    discardButtonPadding -= newButtonPadding + buttonWidth;
+                }
                 let topPadding = (height - cardHeight - (2 * borderWidth)) / 2 + 4 - buttonHeight;
                 let leftPadding = (width - (row.length * (cardWidth + (2 * borderWidth)))) / 2;
 
@@ -265,33 +270,33 @@ class Player extends React.Component {
                     }}
                 >
                     <div>
+                        {showNewButton ?
+                            <Button
+                                style={{
+                                    height: buttonHeight + "px",
+                                    width: buttonWidth + "px",
+                                    marginLeft: newButtonPadding + "px",
+                                    background: "#59CE27",
+                                }}
+                            >
+                                New
+                            </Button>
+                            :
+                            ""
+                        }
                         {this.state.anySelected ?
                             <Button
                                 style={{
                                     height: buttonHeight + "px",
                                     width: buttonWidth + "px",
                                     marginLeft: discardButtonPadding + "px",
-                                    background: '#59CE27',
+                                    background: "#E9C46A",
                                 }}
                                 onClick={() => this.props.onDiscard(this.state.selectedIndex)}
                             >
                                 Discard
                             </Button>
                             :
-                            ""
-                        }
-                        {((this.state.anySelected && (this.state.selectedIndex !== lastDrawnIndex)) || !this.state.anySelected) ? 
-                            <Button
-                                style={{
-                                    height: buttonHeight + "px",
-                                    width: buttonWidth + "px",
-                                    marginLeft: (newButtonPadding - ((discardButtonPadding + buttonWidth) * this.state.anySelected)) + "px",
-                                    background: "#E9C46A",
-                                }}
-                            >
-                                New
-                            </Button> 
-                            : 
                             ""
                         }
                     </div>

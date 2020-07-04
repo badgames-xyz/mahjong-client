@@ -15,7 +15,11 @@ class WinModal extends React.Component {
             width: this.props.width,
             height: this.props.height,
             winnerData: this.props.winnerData,
-            time: this.props.winnerData.time,
+        }
+
+        if (this.state.show) {
+            this.state.time = this.props.winnerData.time;
+            this.setTimer(this.state.time)
         }
     }
 
@@ -53,11 +57,10 @@ class WinModal extends React.Component {
         }
     }
 
-    componentDidMount() {
-        this.setTimer(this.state.time)
-    }
-
     render() {
+        if (!this.state.show) {
+            return null;
+        }
         const iconDiameter = 35; // px
         const iconBorderWidth = 2;
         const iconBorderColour = "#264653";

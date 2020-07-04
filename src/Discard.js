@@ -47,7 +47,6 @@ class Discard extends React.Component {
     }
 
     renderTileRow(startIndex, tilesPerRow){
-        console.log(this.state.wWidth)
         let row = []
         for (let i = startIndex; i < Math.min(startIndex + tilesPerRow, this.state.discard.length); i++){
             row.push(this.renderTile((this.state.wWidth - this.state.wWidth/lastDiscardRatio)/maxTilesPerRow,
