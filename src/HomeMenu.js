@@ -146,7 +146,7 @@ class HomeMenu extends React.Component {
                         onClick={() => this.createRoom()}
                     >
                         <Typography variant="h3">
-                            Create a Room
+                            Create A Room
                         </Typography>
                     </Button>
                 </div>
